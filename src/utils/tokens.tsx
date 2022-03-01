@@ -1,15 +1,15 @@
 import * as BufferLayout from 'buffer-layout';
-import {AccountInfo, Connection, PublicKey} from '@solana/web3.js';
-import {WRAPPED_SOL_MINT} from '@project-serum/serum/lib/token-instructions';
-import {TokenAccount} from './types';
-import {TOKEN_MINTS} from '@project-serum/serum';
-import {useAllMarkets, useCustomMarkets, useTokenAccounts} from './markets';
-import {getMultipleSolanaAccounts} from './send';
-import {useConnection} from './connection';
-import {useAsyncData} from './fetch-loop';
+import { AccountInfo, Connection, PublicKey } from '@safecoin/web3.js';
+import { WRAPPED_SAFE_MINT } from '@project-serum/serum/lib/token-instructions';
+import { TokenAccount } from './types';
+import { TOKEN_MINTS_LIST } from '@project-serum/serum';
+import { useAllMarkets, useCustomMarkets, useTokenAccounts } from './markets';
+import { getMultipleSolanaAccounts } from './send';
+import { useConnection } from './connection';
+import { useAsyncData } from './fetch-loop';
 import tuple from 'immutable-tuple';
 import BN from 'bn.js';
-import {useMemo} from 'react';
+import { useMemo } from 'react';
 
 export const ACCOUNT_LAYOUT = BufferLayout.struct([
   BufferLayout.blob(32, 'mint'),
@@ -26,9 +26,11 @@ export const MINT_LAYOUT = BufferLayout.struct([
   BufferLayout.blob(36),
 ]);
 
-export function parseTokenAccountData(
-  data: Buffer,
-): { mint: PublicKey; owner: PublicKey; amount: number } {
+export function parseTokenAccountData(data: Buffer): {
+  mint: PublicKey;
+  owner: PublicKey;
+  amount: number;
+} {
   let { mint, owner, amount } = ACCOUNT_LAYOUT.decode(data);
   return {
     mint: new PublicKey(mint),
@@ -75,14 +77,11 @@ export async function getOwnedTokenAccounts(
   publicKey: PublicKey,
 ): Promise<Array<{ publicKey: PublicKey; accountInfo: AccountInfo<Buffer> }>> {
   let filters = getOwnedAccountsFilters(publicKey);
-  let resp = await connection.getProgramAccounts(
-    TOKEN_PROGRAM_ID,
-    {
-      filters,
-    },
-  );
-  return resp
-    .map(({ pubkey, account: { data, executable, owner, lamports } }) => ({
+  let resp = await connection.getProgramAccounts(TOKEN_PROGRAM_ID, {
+    filters,
+  });
+  return resp.map(
+    ({ pubkey, account: { data, executable, owner, lamports } }) => ({
       publicKey: new PublicKey(pubkey),
       accountInfo: {
         data,
@@ -90,7 +89,8 @@ export async function getOwnedTokenAccounts(
         owner: new PublicKey(owner),
         lamports,
       },
-    }))
+    }),
+  );
 }
 
 export async function getTokenAccountInfo(
@@ -113,7 +113,7 @@ export async function getTokenAccountInfo(
   return parsedSplAccounts.concat({
     pubkey: ownerAddress,
     account,
-    effectiveMint: WRAPPED_SOL_MINT,
+    effectiveMint: WRAPPED_SAFE_MINT,
   });
 }
 
@@ -122,7 +122,7 @@ export function useMintToTickers(): { [mint: string]: string } {
   const { customMarkets } = useCustomMarkets();
   return useMemo(() => {
     return Object.fromEntries(
-      TOKEN_MINTS.map((mint) => [mint.address.toBase58(), mint.name]),
+      TOKEN_MINTS_LIST.map((mint) => [mint.address.toBase58(), mint.name]),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customMarkets.length]);

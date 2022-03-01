@@ -1,4 +1,4 @@
-import Wallet from '@project-serum/sol-wallet-adapter';
+import Wallet from '@safecoin/safe-wallet-adapter';
 import { notify } from '../../utils/notifications';
 
 export function SolletExtensionAdapter(_, network) {
@@ -14,6 +14,6 @@ export function SolletExtensionAdapter(_, network) {
         message: 'Sollet Extension Error',
         description: 'Please install the Sollet Extension for Chrome',
       });
-    }
-  }
+    },
+  };
 }

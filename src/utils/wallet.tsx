@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import Wallet from '@project-serum/sol-wallet-adapter';
+import Wallet from '@safecoin/safe-wallet-adapter';
 import { notify } from './notifications';
 import { useConnectionConfig } from './connection';
 import { useLocalStorageState } from './utils';

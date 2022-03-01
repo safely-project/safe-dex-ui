@@ -1,6 +1,6 @@
-declare module '@project-serum/sol-wallet-adapter' {
+declare module '@safecoin/safe-wallet-adapter' {
   import EventEmitter from 'eventemitter3';
-  import { PublicKey, Transaction } from '@solana/web3.js';
+  import { PublicKey, Transaction } from '@safecoin/web3.js';
 
   export default class Wallet extends EventEmitter {
     constructor(providerUrl: string, network: string);

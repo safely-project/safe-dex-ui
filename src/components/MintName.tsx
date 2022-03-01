@@ -1,5 +1,5 @@
 import React from 'react';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import { abbreviateAddress } from '../utils/utils';
 import { useMintToTickers } from '../utils/tokens';
 import { Popover } from 'antd';

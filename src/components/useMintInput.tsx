@@ -1,4 +1,4 @@
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import React, { ReactElement, useMemo, useState } from 'react';
 import { useAccountInfo } from '../utils/connection';
 import { isValidPublicKey } from '../utils/utils';

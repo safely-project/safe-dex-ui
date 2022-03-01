@@ -77,8 +77,10 @@ export const TVChartContainer = () => {
       datafeed: new (window as any).Datafeeds.UDFCompatibleDatafeed(
         defaultProps.datafeedUrl,
       ),
-      interval: defaultProps.interval as ChartingLibraryWidgetOptions['interval'],
-      container_id: defaultProps.containerId as ChartingLibraryWidgetOptions['container_id'],
+      interval:
+        defaultProps.interval as ChartingLibraryWidgetOptions['interval'],
+      container_id:
+        defaultProps.containerId as ChartingLibraryWidgetOptions['container_id'],
       library_path: defaultProps.libraryPath as string,
       auto_save_delay: 5,
 

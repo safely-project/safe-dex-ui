@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { PublicKey, Transaction } from '@safecoin/web3.js';
 import { notify } from '../../utils/notifications';
 import { DEFAULT_PUBLIC_KEY, WalletAdapter } from '../types';
 
@@ -20,12 +20,16 @@ interface SolflareExtensionProvider {
   disconnect: () => Promise<void>;
   on: (event: SolflareExtensionEvent, handler: (args: any) => void) => void;
   off: (event: SolflareExtensionEvent, handler: (args: any) => void) => void;
-  request: (method: SolflareExtensionRequestMethod, params: any) => Promise<any>;
+  request: (
+    method: SolflareExtensionRequestMethod,
+    params: any,
+  ) => Promise<any>;
 }
 
 export class SolflareExtensionWalletAdapter
   extends EventEmitter
-  implements WalletAdapter {
+  implements WalletAdapter
+{
   constructor() {
     super();
     this.connect = this.connect.bind(this);
@@ -40,13 +44,13 @@ export class SolflareExtensionWalletAdapter
 
   private _handleConnect = (...args) => {
     this.emit('connect', ...args);
-  }
+  };
 
   private _handleDisconnect = (...args) => {
     this._provider?.off('connect', this._handleConnect);
     this._provider?.off('disconnect', this._handleDisconnect);
     this.emit('disconnect', ...args);
-  }
+  };
 
   get connected() {
     return this._provider?.isConnected || false;

@@ -1,14 +1,31 @@
-import {Market, MARKETS, OpenOrders, Orderbook, TOKEN_MINTS, TokenInstructions,} from '@project-serum/serum';
-import {PublicKey} from '@solana/web3.js';
-import React, {useContext, useEffect, useState} from 'react';
-import {divideBnToNumber, floorToDecimal, getTokenMultiplierFromDecimals, sleep, useLocalStorageState,} from './utils';
-import {refreshCache, useAsyncData} from './fetch-loop';
-import {useAccountData, useAccountInfo, useConnection} from './connection';
-import {useWallet} from './wallet';
+import {
+  Market,
+  MARKETS_LIST,
+  OpenOrders,
+  Orderbook,
+  TOKEN_MINTS_LIST,
+  TokenInstructions,
+} from '@project-serum/serum';
+import { PublicKey } from '@safecoin/web3.js';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  divideBnToNumber,
+  floorToDecimal,
+  getTokenMultiplierFromDecimals,
+  sleep,
+  useLocalStorageState,
+} from './utils';
+import { refreshCache, useAsyncData } from './fetch-loop';
+import { useAccountData, useAccountInfo, useConnection } from './connection';
+import { useWallet } from './wallet';
 import tuple from 'immutable-tuple';
-import {notify} from './notifications';
+import { notify } from './notifications';
 import BN from 'bn.js';
-import {getTokenAccountInfo, parseTokenAccountData, useMintInfos,} from './tokens';
+import {
+  getTokenAccountInfo,
+  parseTokenAccountData,
+  useMintInfos,
+} from './tokens';
 import {
   Balances,
   CustomMarketInfo,
@@ -20,19 +37,22 @@ import {
   SelectedTokenAccounts,
   TokenAccount,
 } from './types';
-import {WRAPPED_SOL_MINT} from '@project-serum/serum/lib/token-instructions';
-import {Order} from '@project-serum/serum/lib/market';
+import { WRAPPED_SAFE_MINT } from '@project-serum/serum/lib/token-instructions';
+import { Order } from '@project-serum/serum/lib/market';
 import BonfidaApi from './bonfidaConnector';
 
 // Used in debugging, should be false in production
 const _IGNORE_DEPRECATED = false;
 
 export const USE_MARKETS: MarketInfo[] = _IGNORE_DEPRECATED
-  ? MARKETS.map((m) => ({ ...m, deprecated: false }))
-  : MARKETS;
+  ? MARKETS_LIST.map((m) => ({ ...m, deprecated: false }))
+  : MARKETS_LIST;
 
 export function useMarketsList() {
-  return USE_MARKETS.filter(({ name, deprecated }) => !deprecated && !process.env.REACT_APP_EXCLUDE_MARKETS?.includes(name));
+  return USE_MARKETS.filter(
+    ({ name, deprecated }) =>
+      !deprecated && !process.env.REACT_APP_EXCLUDE_MARKETS?.includes(name),
+  );
 }
 
 export function useAllMarkets() {
@@ -92,9 +112,9 @@ export function useUnmigratedOpenOrdersAccounts() {
     let deprecatedOpenOrdersAccounts: OpenOrders[] = [];
     const deprecatedProgramIds = Array.from(
       new Set(
-        USE_MARKETS.filter(
-          ({ deprecated }) => deprecated,
-        ).map(({ programId }) => programId.toBase58()),
+        USE_MARKETS.filter(({ deprecated }) => deprecated).map(
+          ({ programId }) => programId.toBase58(),
+        ),
       ),
     ).map((publicKeyStr) => new PublicKey(publicKeyStr));
     let programId: PublicKey;
@@ -146,9 +166,8 @@ export function useUnmigratedOpenOrdersAccounts() {
   };
 }
 
-const MarketContext: React.Context<null | MarketContextValues> = React.createContext<null | MarketContextValues>(
-  null,
-);
+const MarketContext: React.Context<null | MarketContextValues> =
+  React.createContext<null | MarketContextValues>(null);
 
 const _VERY_SLOW_REFRESH_INTERVAL = 5000 * 1000;
 
@@ -175,14 +194,16 @@ export function getMarketDetails(
   );
   const baseCurrency =
     (market?.baseMintAddress &&
-      TOKEN_MINTS.find((token) => token.address.equals(market.baseMintAddress))
-        ?.name) ||
+      TOKEN_MINTS_LIST.find((token) =>
+        token.address.equals(market.baseMintAddress),
+      )?.name) ||
     (marketInfo?.baseLabel && `${marketInfo?.baseLabel}*`) ||
     'UNKNOWN';
   const quoteCurrency =
     (market?.quoteMintAddress &&
-      TOKEN_MINTS.find((token) => token.address.equals(market.quoteMintAddress))
-        ?.name) ||
+      TOKEN_MINTS_LIST.find((token) =>
+        token.address.equals(market.quoteMintAddress),
+      )?.name) ||
     (marketInfo?.quoteLabel && `${marketInfo?.quoteLabel}*`) ||
     'UNKNOWN';
 
@@ -283,10 +304,8 @@ export function useSelectedTokenAccounts(): [
   SelectedTokenAccounts,
   (newSelectedTokenAccounts: SelectedTokenAccounts) => void,
 ] {
-  const [
-    selectedTokenAccounts,
-    setSelectedTokenAccounts,
-  ] = useLocalStorageState<SelectedTokenAccounts>('selectedTokenAccounts', {});
+  const [selectedTokenAccounts, setSelectedTokenAccounts] =
+    useLocalStorageState<SelectedTokenAccounts>('selectedTokenAccounts', {});
   return [selectedTokenAccounts, setSelectedTokenAccounts];
 }
 
@@ -500,7 +519,7 @@ export function useSelectedQuoteCurrencyBalances() {
   if (!market || !quoteCurrencyAccount || !loaded || !accountInfo) {
     return null;
   }
-  if (market.quoteMintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT)) {
+  if (market.quoteMintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT)) {
     return accountInfo?.lamports / 1e9 ?? 0;
   }
   return market.quoteSplSizeToNumber(
@@ -516,7 +535,7 @@ export function useSelectedBaseCurrencyBalances() {
   if (!market || !baseCurrencyAccount || !loaded || !accountInfo) {
     return null;
   }
-  if (market.baseMintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT)) {
+  if (market.baseMintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT)) {
     return accountInfo?.lamports / 1e9 ?? 0;
   }
   return market.baseSplSizeToNumber(
@@ -554,10 +573,8 @@ export function useLocallyStoredFeeDiscountKey(): {
   storedFeeDiscountKey: PublicKey | undefined;
   setStoredFeeDiscountKey: (key: string) => void;
 } {
-  const [
-    storedFeeDiscountKey,
-    setStoredFeeDiscountKey,
-  ] = useLocalStorageState<string>(`feeDiscountKey`, undefined);
+  const [storedFeeDiscountKey, setStoredFeeDiscountKey] =
+    useLocalStorageState<string>(`feeDiscountKey`, undefined);
   return {
     storedFeeDiscountKey: storedFeeDiscountKey
       ? new PublicKey(storedFeeDiscountKey)
@@ -660,10 +677,8 @@ export function useAllOpenOrdersAccounts() {
 }
 
 export function useAllOpenOrdersBalances() {
-  const [
-    openOrdersAccounts,
-    loadedOpenOrdersAccounts,
-  ] = useAllOpenOrdersAccounts();
+  const [openOrdersAccounts, loadedOpenOrdersAccounts] =
+    useAllOpenOrdersAccounts();
   const [mintInfos, mintInfosConnected] = useMintInfos();
   const [allMarkets] = useAllMarkets();
   if (!loadedOpenOrdersAccounts || !mintInfosConnected) {
@@ -857,9 +872,9 @@ export function useWalletBalancesForAllMarkets(): {
       continue;
     }
     let parsedAccount;
-    if (account.effectiveMint.equals(WRAPPED_SOL_MINT)) {
+    if (account.effectiveMint.equals(WRAPPED_SAFE_MINT)) {
       parsedAccount = {
-        mint: WRAPPED_SOL_MINT,
+        mint: WRAPPED_SAFE_MINT,
         owner: account.pubkey,
         amount: account.account.lamports,
       };
@@ -1167,7 +1182,11 @@ export function getExpectedFillPrice(
   return formattedPrice;
 }
 
-export function useCurrentlyAutoSettling(): [boolean, (currentlyAutoSettling: boolean) => void] {
-  const [currentlyAutoSettling, setCurrentlyAutosettling] = useState<boolean>(false);
+export function useCurrentlyAutoSettling(): [
+  boolean,
+  (currentlyAutoSettling: boolean) => void,
+] {
+  const [currentlyAutoSettling, setCurrentlyAutosettling] =
+    useState<boolean>(false);
   return [currentlyAutoSettling, setCurrentlyAutosettling];
 }

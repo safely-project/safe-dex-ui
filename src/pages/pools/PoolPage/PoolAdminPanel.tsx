@@ -15,7 +15,7 @@ import {
   PublicKey,
   SystemProgram,
   Transaction,
-} from '@solana/web3.js';
+} from '@safecoin/web3.js';
 import { AutoComplete, Button, Input, Select, Tabs } from 'antd';
 import {
   createAssociatedTokenAccount,
@@ -238,7 +238,7 @@ function DepositTab({ poolInfo }: TabParams) {
       );
 
       const wrappedSolAccount =
-        mintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT) &&
+        mintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT) &&
         walletTokenAccount.pubkey.equals(wallet.publicKey)
           ? new Account()
           : null;
@@ -256,7 +256,7 @@ function DepositTab({ poolInfo }: TabParams) {
           }),
           TokenInstructions.initializeAccount({
             account: wrappedSolAccount.publicKey,
-            mint: TokenInstructions.WRAPPED_SOL_MINT,
+            mint: TokenInstructions.WRAPPED_SAFE_MINT,
             owner: wallet.publicKey,
           }),
           TokenInstructions.transfer({
@@ -350,7 +350,7 @@ function WithdrawTab({ poolInfo }: TabParams) {
       );
 
       const wrappedSolAccount =
-        mintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT) &&
+        mintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT) &&
         walletTokenAccount.pubkey.equals(wallet.publicKey)
           ? new Account()
           : null;
@@ -368,7 +368,7 @@ function WithdrawTab({ poolInfo }: TabParams) {
           }),
           TokenInstructions.initializeAccount({
             account: wrappedSolAccount.publicKey,
-            mint: TokenInstructions.WRAPPED_SOL_MINT,
+            mint: TokenInstructions.WRAPPED_SAFE_MINT,
             owner: wallet.publicKey,
           }),
         );

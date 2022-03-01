@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useConnection } from './connection';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import {
   NameRegistryState,
   getHashedName,
   getNameAccountKey,
   getTwitterRegistry,
-} from '@solana/spl-name-service';
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+} from '@safecoin/safe-name-service';
+import { TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
 import { useLocalStorageState } from './utils';
 
 interface ReferrerContextValues {
@@ -18,9 +18,8 @@ interface ReferrerContextValues {
   allowRefLink: boolean;
 }
 
-const ReferrerContext: React.Context<null | ReferrerContextValues> = React.createContext<null | ReferrerContextValues>(
-  null,
-);
+const ReferrerContext: React.Context<null | ReferrerContextValues> =
+  React.createContext<null | ReferrerContextValues>(null);
 
 export const ASSOCIATED_TOKEN_PROGRAM_ID: PublicKey = new PublicKey(
   'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',

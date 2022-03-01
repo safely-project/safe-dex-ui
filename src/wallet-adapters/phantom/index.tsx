@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { PublicKey, Transaction } from '@safecoin/web3.js';
 import { notify } from '../../utils/notifications';
 import { DEFAULT_PUBLIC_KEY, WalletAdapter } from '../types';
 
@@ -25,7 +25,8 @@ interface PhantomProvider {
 
 export class PhantomWalletAdapter
   extends EventEmitter
-  implements WalletAdapter {
+  implements WalletAdapter
+{
   constructor() {
     super();
     this.connect = this.connect.bind(this);
@@ -40,11 +41,11 @@ export class PhantomWalletAdapter
 
   private _handleConnect = (...args) => {
     this.emit('connect', ...args);
-  }
+  };
 
   private _handleDisconnect = (...args) => {
     this.emit('disconnect', ...args);
-  }
+  };
 
   get connected() {
     return this._provider?.isConnected || false;

@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import { useConnection } from '../../utils/connection';
 import FloatingElement from '../../components/layout/FloatingElement';
 import styled from 'styled-components';
@@ -97,40 +97,38 @@ export default function NewPoolPage() {
     setSubmitting(true);
     try {
       const assets = initialAssets as ValidInitialAsset[];
-      const [
-        poolAddress,
-        transactionsAndSigners,
-      ] = await PoolTransactions.initializeSimplePool({
-        connection,
-        programId: new PublicKey(programId),
-        poolName,
-        poolStateSpace: 1024,
-        poolMintDecimals: 6,
-        initialPoolMintSupply: new BN(
-          Math.round(10 ** 6 * parseFloat(initialSupply)),
-        ),
-        assetMints: assets.map((asset) => asset.mint),
-        initialAssetQuantities: assets.map((asset) => new BN(asset.quantity)),
-        creator: wallet.publicKey,
-        creatorAssets: assets.map((asset) => {
-          const found = tokenAccounts?.find((tokenAccount) =>
-            tokenAccount.effectiveMint.equals(asset.mint),
-          );
-          if (!found) {
-            throw new Error('No token account for ' + asset.mint.toBase58());
-          }
-          return found.pubkey;
-        }),
-        additionalAccounts: adminControlled
-          ? [
-              {
-                pubkey: new PublicKey(adminAddress),
-                isSigner: false,
-                isWritable: false,
-              },
-            ]
-          : [],
-      });
+      const [poolAddress, transactionsAndSigners] =
+        await PoolTransactions.initializeSimplePool({
+          connection,
+          programId: new PublicKey(programId),
+          poolName,
+          poolStateSpace: 1024,
+          poolMintDecimals: 6,
+          initialPoolMintSupply: new BN(
+            Math.round(10 ** 6 * parseFloat(initialSupply)),
+          ),
+          assetMints: assets.map((asset) => asset.mint),
+          initialAssetQuantities: assets.map((asset) => new BN(asset.quantity)),
+          creator: wallet.publicKey,
+          creatorAssets: assets.map((asset) => {
+            const found = tokenAccounts?.find((tokenAccount) =>
+              tokenAccount.effectiveMint.equals(asset.mint),
+            );
+            if (!found) {
+              throw new Error('No token account for ' + asset.mint.toBase58());
+            }
+            return found.pubkey;
+          }),
+          additionalAccounts: adminControlled
+            ? [
+                {
+                  pubkey: new PublicKey(adminAddress),
+                  isSigner: false,
+                  isWritable: false,
+                },
+              ]
+            : [],
+        });
       const signed = await signTransactions({
         transactionsAndSigners,
         wallet,

@@ -5,7 +5,7 @@ import { Button, Input, Spin, Tabs, Typography } from 'antd';
 import { MintInfo } from '../../../utils/tokens';
 import { useAsyncData } from '../../../utils/fetch-loop';
 import { useConnection } from '../../../utils/connection';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 import tuple from 'immutable-tuple';
 import PoolBasketDisplay from './PoolBasketDisplay';
 import BN from 'bn.js';

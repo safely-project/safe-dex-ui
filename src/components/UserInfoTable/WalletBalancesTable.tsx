@@ -12,7 +12,7 @@ import {
 } from '../../utils/markets';
 import StandaloneTokenAccountsSelect from '../StandaloneTokenAccountSelect';
 import { abbreviateAddress } from '../../utils/utils';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from '@safecoin/web3.js';
 
 export default function WalletBalancesTable({
   walletBalances,
