@@ -32,7 +32,7 @@ export default function CustomMarketDialog({
   );
   const programId = marketAccountInfo
     ? marketAccountInfo.owner.toBase58()
-    : MARKETS_LIST.find(({ deprecated }) => !deprecated).programId.toBase58();
+    : MARKETS_LIST.find(({ deprecated }) => deprecated).programId.toBase58();
 
   useEffect(() => {
     if (!wellFormedMarketId || !programId) {

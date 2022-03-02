@@ -51,7 +51,7 @@ export const USE_MARKETS: MarketInfo[] = _IGNORE_DEPRECATED
 export function useMarketsList() {
   return USE_MARKETS.filter(
     ({ name, deprecated }) =>
-      !deprecated && !process.env.REACT_APP_EXCLUDE_MARKETS?.includes(name),
+      deprecated && !process.env.REACT_APP_EXCLUDE_MARKETS?.includes(name),
   );
 }
 

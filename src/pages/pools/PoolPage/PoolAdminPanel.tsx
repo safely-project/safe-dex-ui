@@ -11,7 +11,7 @@ import {
 import { sendTransaction } from '../../../utils/send';
 import { notify } from '../../../utils/notifications';
 import {
-  Account,
+  Keypair,
   PublicKey,
   SystemProgram,
   Transaction,
@@ -240,11 +240,11 @@ function DepositTab({ poolInfo }: TabParams) {
       const wrappedSolAccount =
         mintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT) &&
         walletTokenAccount.pubkey.equals(wallet.publicKey)
-          ? new Account()
+          ? new Keypair()
           : null;
 
       const transaction = new Transaction();
-      const signers: Account[] = [];
+      const signers: Keypair[] = [];
       if (wrappedSolAccount) {
         transaction.add(
           SystemProgram.createAccount({
@@ -352,11 +352,11 @@ function WithdrawTab({ poolInfo }: TabParams) {
       const wrappedSolAccount =
         mintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT) &&
         walletTokenAccount.pubkey.equals(wallet.publicKey)
-          ? new Account()
+          ? new Keypair()
           : null;
 
       const transaction = new Transaction();
-      const signers: Account[] = [];
+      const signers: Keypair[] = [];
       if (wrappedSolAccount) {
         transaction.add(
           SystemProgram.createAccount({
@@ -466,7 +466,7 @@ function UpdateFeeTab({ poolInfo }: TabParams) {
 
 function useOnSubmitHandler(
   description: string,
-  makeTransaction: () => Promise<[Transaction, Account[]]>,
+  makeTransaction: () => Promise<[Transaction, Keypair[]]>,
   refresh = false,
 ): [(FormEvent) => void, boolean] {
   const connection = useConnection();

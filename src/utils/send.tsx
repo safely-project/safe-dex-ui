@@ -2,10 +2,10 @@ import { notify } from './notifications';
 import { getDecimalCount, sleep } from './utils';
 import { getSelectedTokenAccountForMint } from './markets';
 import {
-  Account,
   AccountInfo,
   Commitment,
   Connection,
+  Keypair,
   PublicKey,
   RpcResponseAndContext,
   SimulatedTransactionResponse,
@@ -263,7 +263,7 @@ export async function settleAllFunds({
     (
       x,
     ): x is {
-      signers: Account[];
+      signers: Keypair[];
       transaction: Transaction;
       payer: PublicKey;
     } => !!x,
@@ -271,9 +271,9 @@ export async function settleAllFunds({
   if (!settleTransactions || settleTransactions.length === 0) return;
 
   const transactions = settleTransactions.slice(0, 4).map((t) => t.transaction);
-  const signers: Array<Account> = [];
+  const signers: Array<Keypair> = [];
   settleTransactions
-    .reduce((cumulative: Array<Account>, t) => cumulative.concat(t.signers), [])
+    .reduce((cumulative: Array<Keypair>, t) => cumulative.concat(t.signers), [])
     .forEach((signer) => {
       if (!signers.find((s) => s.publicKey.equals(signer.publicKey))) {
         signers.push(signer);
@@ -397,7 +397,7 @@ export async function placeOrder({
   }
   const owner = wallet.publicKey;
   const transaction = new Transaction();
-  const signers: Account[] = [];
+  const signers: Keypair[] = [];
 
   if (!baseCurrencyAccount) {
     const { transaction: createAccountTransaction, newAccountPubkey } =
@@ -442,7 +442,7 @@ export async function placeOrder({
   const matchOrderstransaction = market.makeMatchOrdersTransaction(5);
   transaction.add(matchOrderstransaction);
   const startTime = getUnixTs();
-  let { transaction: placeOrderTx, signers: placeOrderSigners } =
+  let { txn: placeOrderTx, sigs: placeOrderSigners } =
     await market.makePlaceOrderTransaction(
       connection,
       params,
@@ -481,13 +481,13 @@ export async function listMarket({
   quoteLotSize: number;
   dexProgramId: PublicKey;
 }) {
-  const market = new Account();
-  const requestQueue = new Account();
-  const eventQueue = new Account();
-  const bids = new Account();
-  const asks = new Account();
-  const baseVault = new Account();
-  const quoteVault = new Account();
+  const market = new Keypair();
+  const requestQueue = new Keypair();
+  const eventQueue = new Keypair();
+  const bids = new Keypair();
+  const asks = new Keypair();
+  const baseVault = new Keypair();
+  const quoteVault = new Keypair();
   const feeRateBps = 0;
   const quoteDustThreshold = new BN(100);
 
@@ -634,7 +634,7 @@ export async function sendTransaction({
 }: {
   transaction: Transaction;
   wallet: WalletAdapter;
-  signers?: Array<Account>;
+  signers?: Array<Keypair>;
   connection: Connection;
   sendingMessage?: string;
   sentMessage?: string;
@@ -667,7 +667,7 @@ export async function signTransaction({
 }: {
   transaction: Transaction;
   wallet: WalletAdapter;
-  signers?: Array<Account>;
+  signers?: Array<Keypair>;
   connection: Connection;
 }) {
   transaction.recentBlockhash = (
@@ -687,7 +687,7 @@ export async function signTransactions({
 }: {
   transactionsAndSigners: {
     transaction: Transaction;
-    signers?: Array<Account>;
+    signers?: Array<Keypair>;
   }[];
   wallet: WalletAdapter;
   connection: Connection;
