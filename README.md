@@ -1,6 +1,6 @@
-# Serum DEX UI
+# Safecoin DEX UI
 
-An implementation of a UI for the Serum DEX.
+An implementation of a UI for the Safecoin DEX.
 
 ### Running the UI
 
