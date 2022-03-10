@@ -10,7 +10,7 @@ const appsAndTokens = apps.concat(
   TOKEN_MINTS_LIST.map((mint) => {
     return {
       name: `${mint.name} SPL`,
-      url: `https://solscan.io/address/${mint.address.toBase58()}`,
+      url: `https://explorer.safecoin.org/address/${mint.address.toBase58()}?cluster=devnet`,
       description: `${mint.name} SPL token`,
       icon: '',
       tags: [

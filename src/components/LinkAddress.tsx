@@ -17,7 +17,9 @@ export default function LinkAddress({
       <Button
         type="link"
         icon={<LinkOutlined />}
-        href={'https://solscan.io/address/' + address}
+        href={
+          'https://explorer.safecoin.org/address/' + address + '?cluster=devnet'
+        }
         target="_blank"
         rel="noopener noreferrer"
         style={{ cursor: 'pointer' }}

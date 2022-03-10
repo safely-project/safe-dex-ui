@@ -46,7 +46,7 @@ const EXTERNAL_LINKS = {
   '/wallet-support': 'https://serum-academy.com/en/wallet-support',
   '/dex-list': 'https://serum-academy.com/en/dex-list/',
   '/developer-resources': 'https://serum-academy.com/en/developer-resources/',
-  '/explorer': 'https://solscan.io',
+  '/explorer': 'https://explorer.safecoin.org/',
   '/srm-faq': 'https://projectserum.com/srm-faq',
   '/swap': 'https://swap.projectserum.com',
 };
