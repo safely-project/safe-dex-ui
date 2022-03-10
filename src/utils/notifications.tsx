@@ -19,9 +19,7 @@ export function notify({
     description = (
       <Link
         external
-        to={
-          'https://explorer.safecoin.org/address/tx/' + txid + '?cluster=devnet'
-        }
+        to={'https://explorer.safecoin.org/tx/' + txid + '?cluster=devnet'}
         style={{ color: '#0000ff' }}
       >
         View transaction {txid.slice(0, 8)}...{txid.slice(txid.length - 8)}
