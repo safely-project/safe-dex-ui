@@ -24,6 +24,11 @@ const ASSET_URL =
   'https://cdn.jsdelivr.net/gh/solana-labs/oyster@main/assets/wallets';
 export const WALLET_PROVIDERS = [
   {
+    name: 'Safecoin Wallet',
+    url: 'https://wallet.safecoin.org',
+    icon: '',
+  },
+  {
     name: 'sollet.io',
     url: 'https://www.sollet.io',
     icon: `${ASSET_URL}/sollet.svg`,
