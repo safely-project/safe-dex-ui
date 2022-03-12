@@ -10,6 +10,7 @@ import { useAsyncData } from './fetch-loop';
 import tuple from 'immutable-tuple';
 import BN from 'bn.js';
 import { useMemo } from 'react';
+import { TOKEN_PROGRAM_ID } from '@safecoin/safe-token';
 
 export const ACCOUNT_LAYOUT = BufferLayout.struct([
   BufferLayout.blob(32, 'mint'),
@@ -68,18 +69,17 @@ export function getOwnedAccountsFilters(publicKey: PublicKey) {
   ];
 }
 
-export const TOKEN_PROGRAM_ID = new PublicKey(
-  'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
-);
-
 export async function getOwnedTokenAccounts(
   connection: Connection,
   publicKey: PublicKey,
 ): Promise<Array<{ publicKey: PublicKey; accountInfo: AccountInfo<Buffer> }>> {
   let filters = getOwnedAccountsFilters(publicKey);
+  console.log(publicKey.toString());
+  console.log(TOKEN_PROGRAM_ID.toString());
   let resp = await connection.getProgramAccounts(TOKEN_PROGRAM_ID, {
     filters,
   });
+  console.log(resp);
   return resp.map(
     ({ pubkey, account: { data, executable, owner, lamports } }) => ({
       publicKey: new PublicKey(pubkey),
