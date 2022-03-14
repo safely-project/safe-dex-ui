@@ -1,4 +1,4 @@
-import { PoolInfo } from '@project-serum/pool';
+import { PoolInfo } from '@safely-project/pool';
 import React from 'react';
 import { PublicKey } from '@safecoin/web3.js';
 import { useAccountInfo } from '../../../utils/connection';
@@ -11,7 +11,7 @@ import FloatingElement from '../../../components/layout/FloatingElement';
 import { useTokenAccounts } from '../../../utils/markets';
 import { MintName } from '../../../components/MintName';
 import { LinkOutlined } from '@ant-design/icons';
-import { WRAPPED_SAFE_MINT } from '@project-serum/serum/lib/token-instructions';
+import { WRAPPED_SAFE_MINT } from '@safely-project/serum/lib/token-instructions';
 
 const { TabPane } = Tabs;
 

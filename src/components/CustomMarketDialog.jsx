@@ -3,7 +3,7 @@ import { Col, Input, Modal, Row, Typography } from 'antd';
 import { notify } from '../utils/notifications';
 import { isValidPublicKey } from '../utils/utils';
 import { PublicKey } from '@safecoin/web3.js';
-import { Market, MARKETS_LIST, TOKEN_MINTS_LIST } from '@project-serum/serum';
+import { Market, MARKETS_LIST, TOKEN_MINTS_LIST } from '@safely-project/serum';
 import { useAccountInfo, useConnection } from '../utils/connection';
 import { LoadingOutlined } from '@ant-design/icons';
 

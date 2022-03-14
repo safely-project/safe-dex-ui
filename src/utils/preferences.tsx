@@ -9,7 +9,7 @@ import {
 } from './markets';
 import {settleAllFunds} from './send';
 import {PreferencesContextValues} from './types';
-import {Market} from "@project-serum/serum";
+import {Market} from "@safely-project/serum";
 
 export const AUTO_SETTLE_DISABLED_OVERRIDE = true;
 

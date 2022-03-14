@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
 import { Select, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { TOKEN_MINTS_LIST } from '@project-serum/serum';
+import { TOKEN_MINTS } from '@safely-project/serum';
 import apps from '@project-serum/awesome-serum';
 
 const { Option } = Select;
 
 const appsAndTokens = apps.concat(
-  TOKEN_MINTS_LIST.map((mint) => {
+  TOKEN_MINTS.map((mint) => {
     return {
       name: `${mint.name} SPL`,
       url: `https://explorer.safecoin.org/address/${mint.address.toBase58()}?cluster=devnet`,

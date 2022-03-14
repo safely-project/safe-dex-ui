@@ -1,8 +1,8 @@
 import * as BufferLayout from 'buffer-layout';
 import { AccountInfo, Connection, PublicKey } from '@safecoin/web3.js';
-import { WRAPPED_SAFE_MINT } from '@project-serum/serum/lib/token-instructions';
+import { WRAPPED_SAFE_MINT } from '@safely-project/serum/lib/token-instructions';
 import { TokenAccount } from './types';
-import { TOKEN_MINTS_LIST } from '@project-serum/serum';
+import { TOKEN_MINTS_LIST } from '@safely-project/serum';
 import { useAllMarkets, useCustomMarkets, useTokenAccounts } from './markets';
 import { getMultipleSolanaAccounts } from './send';
 import { useConnection } from './connection';

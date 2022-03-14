@@ -26,9 +26,9 @@ import {
   parseInstructionErrorResponse,
   TOKEN_MINTS_LIST,
   TokenInstructions,
-} from '@project-serum/serum';
+} from '@safely-project/serum';
 import { SelectedTokenAccounts, TokenAccount } from './types';
-import { Order } from '@project-serum/serum/lib/market';
+import { Order } from '@safely-project/serum/lib/market';
 import { Buffer } from 'buffer';
 import assert from 'assert';
 import { struct } from 'superstruct';

@@ -5,7 +5,7 @@ import {
   Orderbook,
   TOKEN_MINTS_LIST,
   TokenInstructions,
-} from '@project-serum/serum';
+} from '@safely-project/serum';
 import { PublicKey } from '@safecoin/web3.js';
 import React, { useContext, useEffect, useState } from 'react';
 import {
@@ -37,8 +37,8 @@ import {
   SelectedTokenAccounts,
   TokenAccount,
 } from './types';
-import { WRAPPED_SAFE_MINT } from '@project-serum/serum/lib/token-instructions';
-import { Order } from '@project-serum/serum/lib/market';
+import { WRAPPED_SAFE_MINT } from '@safely-project/serum/lib/token-instructions';
+import { Order } from '@safely-project/serum/lib/market';
 import BonfidaApi from './bonfidaConnector';
 
 // Used in debugging, should be false in production
