@@ -238,7 +238,7 @@ function DepositTab({ poolInfo }: TabParams) {
       );
 
       const wrappedSolAccount =
-        mintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT) &&
+        mintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT) &&
         walletTokenAccount.pubkey.equals(wallet.publicKey)
           ? new Keypair()
           : null;
@@ -256,7 +256,7 @@ function DepositTab({ poolInfo }: TabParams) {
           }),
           TokenInstructions.initializeAccount({
             account: wrappedSolAccount.publicKey,
-            mint: TokenInstructions.WRAPPED_SAFE_MINT,
+            mint: TokenInstructions.WRAPPED_SOL_MINT,
             owner: wallet.publicKey,
           }),
           TokenInstructions.transfer({
@@ -350,7 +350,7 @@ function WithdrawTab({ poolInfo }: TabParams) {
       );
 
       const wrappedSolAccount =
-        mintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT) &&
+        mintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT) &&
         walletTokenAccount.pubkey.equals(wallet.publicKey)
           ? new Keypair()
           : null;
@@ -368,7 +368,7 @@ function WithdrawTab({ poolInfo }: TabParams) {
           }),
           TokenInstructions.initializeAccount({
             account: wrappedSolAccount.publicKey,
-            mint: TokenInstructions.WRAPPED_SAFE_MINT,
+            mint: TokenInstructions.WRAPPED_SOL_MINT,
             owner: wallet.publicKey,
           }),
         );

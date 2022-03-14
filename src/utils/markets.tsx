@@ -1,9 +1,9 @@
 import {
   Market,
-  MARKETS_LIST,
+  MARKETS,
   OpenOrders,
   Orderbook,
-  TOKEN_MINTS_LIST,
+  TOKEN_MINTS,
   TokenInstructions,
 } from '@safely-project/serum';
 import { PublicKey } from '@safecoin/web3.js';
@@ -37,7 +37,7 @@ import {
   SelectedTokenAccounts,
   TokenAccount,
 } from './types';
-import { WRAPPED_SAFE_MINT } from '@safely-project/serum/lib/token-instructions';
+import { WRAPPED_SOL_MINT } from '@safely-project/serum/lib/token-instructions';
 import { Order } from '@safely-project/serum/lib/market';
 import BonfidaApi from './bonfidaConnector';
 
@@ -45,8 +45,8 @@ import BonfidaApi from './bonfidaConnector';
 const _IGNORE_DEPRECATED = false;
 
 export const USE_MARKETS: MarketInfo[] = _IGNORE_DEPRECATED
-  ? MARKETS_LIST.map((m) => ({ ...m, deprecated: false }))
-  : MARKETS_LIST;
+  ? MARKETS.map((m) => ({ ...m, deprecated: false }))
+  : MARKETS;
 
 export function useMarketsList() {
   return USE_MARKETS.filter(
@@ -194,14 +194,14 @@ export function getMarketDetails(
   );
   const baseCurrency =
     (market?.baseMintAddress &&
-      TOKEN_MINTS_LIST.find((token) =>
+      TOKEN_MINTS.find((token) =>
         token.address.equals(market.baseMintAddress),
       )?.name) ||
     (marketInfo?.baseLabel && `${marketInfo?.baseLabel}*`) ||
     'UNKNOWN';
   const quoteCurrency =
     (market?.quoteMintAddress &&
-      TOKEN_MINTS_LIST.find((token) =>
+      TOKEN_MINTS.find((token) =>
         token.address.equals(market.quoteMintAddress),
       )?.name) ||
     (marketInfo?.quoteLabel && `${marketInfo?.quoteLabel}*`) ||
@@ -519,7 +519,7 @@ export function useSelectedQuoteCurrencyBalances() {
   if (!market || !quoteCurrencyAccount || !loaded || !accountInfo) {
     return null;
   }
-  if (market.quoteMintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT)) {
+  if (market.quoteMintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT)) {
     return accountInfo?.lamports / 1e9 ?? 0;
   }
   return market.quoteSplSizeToNumber(
@@ -535,7 +535,7 @@ export function useSelectedBaseCurrencyBalances() {
   if (!market || !baseCurrencyAccount || !loaded || !accountInfo) {
     return null;
   }
-  if (market.baseMintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT)) {
+  if (market.baseMintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT)) {
     return accountInfo?.lamports / 1e9 ?? 0;
   }
   return market.baseSplSizeToNumber(
@@ -872,9 +872,9 @@ export function useWalletBalancesForAllMarkets(): {
       continue;
     }
     let parsedAccount;
-    if (account.effectiveMint.equals(WRAPPED_SAFE_MINT)) {
+    if (account.effectiveMint.equals(WRAPPED_SOL_MINT)) {
       parsedAccount = {
-        mint: WRAPPED_SAFE_MINT,
+        mint: WRAPPED_SOL_MINT,
         owner: account.pubkey,
         amount: account.account.lamports,
       };

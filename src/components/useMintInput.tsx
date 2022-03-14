@@ -77,7 +77,7 @@ export function useMintInput(
     }
     return { validateStatus, hasFeedback, help, mintInfo };
   }, [address, accountInfo, loaded]);
-
+  
   const input = (
     <Form.Item
       label={
@@ -92,6 +92,7 @@ export function useMintInput(
             </>
           }
         >
+          
           {label}
         </Tooltip>
       }

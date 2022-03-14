@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, Tooltip, Typography } from 'antd';
 import { notify } from '../utils/notifications';
-import { MARKETS_LIST } from '@safely-project/serum';
+import { MARKETS } from '@safely-project/serum';
 import { useConnection } from '../utils/connection';
 import FloatingElement from '../components/layout/FloatingElement';
 import styled from 'styled-components';
@@ -56,9 +56,7 @@ export default function ListNewMarketPage() {
   );
   const [lotSize, setLotSize] = useState('1');
   const [tickSize, setTickSize] = useState('0.01');
-  const dexProgramId = MARKETS_LIST.find(
-    ({ deprecated }) => deprecated,
-  ).programId;
+  const dexProgramId = MARKETS.find(({ deprecated }) => deprecated).programId;
   const [submitting, setSubmitting] = useState(false);
 
   const [listedMarket, setListedMarket] = useState(null);

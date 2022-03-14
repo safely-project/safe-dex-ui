@@ -24,7 +24,7 @@ import {
   Market,
   OpenOrders,
   parseInstructionErrorResponse,
-  TOKEN_MINTS_LIST,
+  TOKEN_MINTS,
   TokenInstructions,
 } from '@safely-project/serum';
 import { SelectedTokenAccounts, TokenAccount } from './types';
@@ -127,8 +127,8 @@ export async function settleFunds({
   }
   let referrerQuoteWallet: PublicKey | null = null;
   if (market.supportsReferralFees) {
-    const usdt = TOKEN_MINTS_LIST.find(({ name }) => name === 'USDT');
-    const usdc = TOKEN_MINTS_LIST.find(({ name }) => name === 'USDC');
+    const usdt = TOKEN_MINTS.find(({ name }) => name === 'USDT');
+    const usdc = TOKEN_MINTS.find(({ name }) => name === 'USDC');
     if (usdtRef && usdt && market.quoteMintAddress.equals(usdt.address)) {
       referrerQuoteWallet = usdtRef;
     } else if (

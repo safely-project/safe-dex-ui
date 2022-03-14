@@ -1,8 +1,8 @@
 import * as BufferLayout from 'buffer-layout';
 import { AccountInfo, Connection, PublicKey } from '@safecoin/web3.js';
-import { WRAPPED_SAFE_MINT } from '@safely-project/serum/lib/token-instructions';
+import { WRAPPED_SOL_MINT } from '@safely-project/serum/lib/token-instructions';
 import { TokenAccount } from './types';
-import { TOKEN_MINTS_LIST } from '@safely-project/serum';
+import { TOKEN_MINTS } from '@safely-project/serum';
 import { useAllMarkets, useCustomMarkets, useTokenAccounts } from './markets';
 import { getMultipleSolanaAccounts } from './send';
 import { useConnection } from './connection';
@@ -113,7 +113,7 @@ export async function getTokenAccountInfo(
   return parsedSplAccounts.concat({
     pubkey: ownerAddress,
     account,
-    effectiveMint: WRAPPED_SAFE_MINT,
+    effectiveMint: WRAPPED_SOL_MINT,
   });
 }
 
@@ -122,7 +122,7 @@ export function useMintToTickers(): { [mint: string]: string } {
   const { customMarkets } = useCustomMarkets();
   return useMemo(() => {
     return Object.fromEntries(
-      TOKEN_MINTS_LIST.map((mint) => [mint.address.toBase58(), mint.name]),
+      TOKEN_MINTS.map((mint) => [mint.address.toBase58(), mint.name]),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customMarkets.length]);
