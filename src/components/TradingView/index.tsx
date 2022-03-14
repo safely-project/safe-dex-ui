@@ -1,15 +1,16 @@
 import * as React from 'react';
-import './index.css';
+import './index.css'; 
+/*
 import {
   widget,
   ChartingLibraryWidgetOptions,
   IChartingLibraryWidget,
-} from '../../charting_library';
+} from '../../charting_library';*/
 import { useMarket, USE_MARKETS } from '../../utils/markets';
 import * as saveLoadAdapter from './saveLoadAdapter';
 import { flatten } from '../../utils/utils';
 import { BONFIDA_DATA_FEED } from '../../utils/bonfidaConnector';
-
+/*
 export interface ChartContainerProps {
   symbol: ChartingLibraryWidgetOptions['symbol'];
   interval: ChartingLibraryWidgetOptions['interval'];
@@ -149,3 +150,4 @@ export const TVChartContainer = () => {
 
   return <div id={defaultProps.containerId} className={'TVChartContainer'} />;
 };
+*/

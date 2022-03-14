@@ -5,7 +5,7 @@ import {
   AccountInfo,
   Commitment,
   Connection,
-  Keypair,
+  Account,
   PublicKey,
   RpcResponseAndContext,
   SimulatedTransactionResponse,
@@ -24,11 +24,11 @@ import {
   Market,
   OpenOrders,
   parseInstructionErrorResponse,
-  TOKEN_MINTS_LIST,
+  TOKEN_MINTS,
   TokenInstructions,
-} from '@project-serum/serum';
+} from '@safely-project/serum';
 import { SelectedTokenAccounts, TokenAccount } from './types';
-import { Order } from '@project-serum/serum/lib/market';
+import { Order } from '@safely-project/serum/lib/market';
 import { Buffer } from 'buffer';
 import assert from 'assert';
 import { struct } from 'superstruct';
@@ -127,8 +127,8 @@ export async function settleFunds({
   }
   let referrerQuoteWallet: PublicKey | null = null;
   if (market.supportsReferralFees) {
-    const usdt = TOKEN_MINTS_LIST.find(({ name }) => name === 'USDT');
-    const usdc = TOKEN_MINTS_LIST.find(({ name }) => name === 'USDC');
+    const usdt = TOKEN_MINTS.find(({ name }) => name === 'USDT');
+    const usdc = TOKEN_MINTS.find(({ name }) => name === 'USDC');
     if (usdtRef && usdt && market.quoteMintAddress.equals(usdt.address)) {
       referrerQuoteWallet = usdtRef;
     } else if (
@@ -263,7 +263,7 @@ export async function settleAllFunds({
     (
       x,
     ): x is {
-      signers: Keypair[];
+      signers: Account[];
       transaction: Transaction;
       payer: PublicKey;
     } => !!x,
@@ -271,9 +271,9 @@ export async function settleAllFunds({
   if (!settleTransactions || settleTransactions.length === 0) return;
 
   const transactions = settleTransactions.slice(0, 4).map((t) => t.transaction);
-  const signers: Array<Keypair> = [];
+  const signers: Array<Account> = [];
   settleTransactions
-    .reduce((cumulative: Array<Keypair>, t) => cumulative.concat(t.signers), [])
+    .reduce((cumulative: Array<Account>, t) => cumulative.concat(t.signers), [])
     .forEach((signer) => {
       if (!signers.find((s) => s.publicKey.equals(signer.publicKey))) {
         signers.push(signer);
@@ -397,7 +397,7 @@ export async function placeOrder({
   }
   const owner = wallet.publicKey;
   const transaction = new Transaction();
-  const signers: Keypair[] = [];
+  const signers: Account[] = [];
 
   if (!baseCurrencyAccount) {
     const { transaction: createAccountTransaction, newAccountPubkey } =
@@ -442,7 +442,7 @@ export async function placeOrder({
   const matchOrderstransaction = market.makeMatchOrdersTransaction(5);
   transaction.add(matchOrderstransaction);
   const startTime = getUnixTs();
-  let { txn: placeOrderTx, sigs: placeOrderSigners } =
+  let { transaction: placeOrderTx, signers: placeOrderSigners } =
     await market.makePlaceOrderTransaction(
       connection,
       params,
@@ -481,13 +481,13 @@ export async function listMarket({
   quoteLotSize: number;
   dexProgramId: PublicKey;
 }) {
-  const market = new Keypair();
-  const requestQueue = new Keypair();
-  const eventQueue = new Keypair();
-  const bids = new Keypair();
-  const asks = new Keypair();
-  const baseVault = new Keypair();
-  const quoteVault = new Keypair();
+  const market = new Account();
+  const requestQueue = new Account();
+  const eventQueue = new Account();
+  const bids = new Account();
+  const asks = new Account();
+  const baseVault = new Account();
+  const quoteVault = new Account();
   const feeRateBps = 0;
   const quoteDustThreshold = new BN(100);
 
@@ -634,7 +634,7 @@ export async function sendTransaction({
 }: {
   transaction: Transaction;
   wallet: WalletAdapter;
-  signers?: Array<Keypair>;
+  signers?: Array<Account>;
   connection: Connection;
   sendingMessage?: string;
   sentMessage?: string;
@@ -667,7 +667,7 @@ export async function signTransaction({
 }: {
   transaction: Transaction;
   wallet: WalletAdapter;
-  signers?: Array<Keypair>;
+  signers?: Array<Account>;
   connection: Connection;
 }) {
   transaction.recentBlockhash = (
@@ -687,7 +687,7 @@ export async function signTransactions({
 }: {
   transactionsAndSigners: {
     transaction: Transaction;
-    signers?: Array<Keypair>;
+    signers?: Array<Account>;
   }[];
   wallet: WalletAdapter;
   connection: Connection;

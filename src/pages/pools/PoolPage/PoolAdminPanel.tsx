@@ -1,6 +1,6 @@
 import React, { FormEvent, useMemo, useState } from 'react';
-import { AdminControlledPoolInstructions, PoolInfo } from '@project-serum/pool';
-import { TokenInstructions } from '@project-serum/serum';
+import { AdminControlledPoolInstructions, PoolInfo } from '@safely-project/pool';
+import { TokenInstructions } from '@safely-project/serum';
 import FloatingElement from '../../../components/layout/FloatingElement';
 import { useConnection } from '../../../utils/connection';
 import { useWallet } from '../../../utils/wallet';
@@ -11,7 +11,7 @@ import {
 import { sendTransaction } from '../../../utils/send';
 import { notify } from '../../../utils/notifications';
 import {
-  Keypair,
+  Account,
   PublicKey,
   SystemProgram,
   Transaction,
@@ -20,7 +20,7 @@ import { AutoComplete, Button, Input, Select, Tabs } from 'antd';
 import {
   createAssociatedTokenAccount,
   getAssociatedTokenAddress,
-} from '@project-serum/associated-token';
+} from '@safely-project/associated-token';
 import { parseTokenMintData, useMintToTickers } from '../../../utils/tokens';
 import BN from 'bn.js';
 import { refreshAllCaches } from '../../../utils/fetch-loop';
@@ -238,13 +238,13 @@ function DepositTab({ poolInfo }: TabParams) {
       );
 
       const wrappedSolAccount =
-        mintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT) &&
+        mintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT) &&
         walletTokenAccount.pubkey.equals(wallet.publicKey)
-          ? new Keypair()
+          ? new Account()
           : null;
 
       const transaction = new Transaction();
-      const signers: Keypair[] = [];
+      const signers: Account[] = [];
       if (wrappedSolAccount) {
         transaction.add(
           SystemProgram.createAccount({
@@ -256,7 +256,7 @@ function DepositTab({ poolInfo }: TabParams) {
           }),
           TokenInstructions.initializeAccount({
             account: wrappedSolAccount.publicKey,
-            mint: TokenInstructions.WRAPPED_SAFE_MINT,
+            mint: TokenInstructions.WRAPPED_SOL_MINT,
             owner: wallet.publicKey,
           }),
           TokenInstructions.transfer({
@@ -350,13 +350,13 @@ function WithdrawTab({ poolInfo }: TabParams) {
       );
 
       const wrappedSolAccount =
-        mintAddress.equals(TokenInstructions.WRAPPED_SAFE_MINT) &&
+        mintAddress.equals(TokenInstructions.WRAPPED_SOL_MINT) &&
         walletTokenAccount.pubkey.equals(wallet.publicKey)
-          ? new Keypair()
+          ? new Account()
           : null;
 
       const transaction = new Transaction();
-      const signers: Keypair[] = [];
+      const signers: Account[] = [];
       if (wrappedSolAccount) {
         transaction.add(
           SystemProgram.createAccount({
@@ -368,7 +368,7 @@ function WithdrawTab({ poolInfo }: TabParams) {
           }),
           TokenInstructions.initializeAccount({
             account: wrappedSolAccount.publicKey,
-            mint: TokenInstructions.WRAPPED_SAFE_MINT,
+            mint: TokenInstructions.WRAPPED_SOL_MINT,
             owner: wallet.publicKey,
           }),
         );
@@ -466,7 +466,7 @@ function UpdateFeeTab({ poolInfo }: TabParams) {
 
 function useOnSubmitHandler(
   description: string,
-  makeTransaction: () => Promise<[Transaction, Keypair[]]>,
+  makeTransaction: () => Promise<[Transaction, Account[]]>,
   refresh = false,
 ): [(FormEvent) => void, boolean] {
   const connection = useConnection();

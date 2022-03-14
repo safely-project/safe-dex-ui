@@ -1,4 +1,4 @@
-import { PoolInfo } from '@project-serum/pool';
+import { PoolInfo } from '@safely-project/pool';
 import React from 'react';
 import { PublicKey } from '@safecoin/web3.js';
 import { useAccountInfo } from '../../../utils/connection';
@@ -11,7 +11,7 @@ import FloatingElement from '../../../components/layout/FloatingElement';
 import { useTokenAccounts } from '../../../utils/markets';
 import { MintName } from '../../../components/MintName';
 import { LinkOutlined } from '@ant-design/icons';
-import { WRAPPED_SAFE_MINT } from '@project-serum/serum/lib/token-instructions';
+import { WRAPPED_SOL_MINT } from '@safely-project/serum/lib/token-instructions';
 
 const { TabPane } = Tabs;
 
@@ -89,7 +89,7 @@ function BalanceItem({ mint, publicKey, isPoolToken }: BalanceItemProps) {
   let quantityDisplay = <Spin size="small" />;
   if (mintAccountInfo && balanceAccountInfo) {
     const mintInfo = parseTokenMintData(mintAccountInfo.data);
-    if (mint.equals(WRAPPED_SAFE_MINT)) {
+    if (mint.equals(WRAPPED_SOL_MINT)) {
       quantityDisplay = (
         <>{balanceAccountInfo.lamports / 10 ** mintInfo.decimals}</>
       );
