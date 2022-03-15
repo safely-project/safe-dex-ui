@@ -14,10 +14,7 @@ import { Button, Modal } from 'antd';
 import {
   WalletAdapter,
   LedgerWalletAdapter,
-  PhantomWalletAdapter,
   SolletExtensionAdapter,
-  MathWalletAdapter,
-  SolflareExtensionWalletAdapter,
 } from '../wallet-adapters';
 
 const ASSET_URL =
@@ -29,14 +26,9 @@ export const WALLET_PROVIDERS = [
     icon: 'https://raw.githubusercontent.com/Fair-Exchange/spl-token-wallet/master/public/favicon.ico',
   },
   {
-    name: 'sollet.io',
-    url: 'https://www.sollet.io',
-    icon: `${ASSET_URL}/sollet.svg`,
-  },
-  {
-    name: 'Sollet Extension',
+    name: 'Safecoin Extension',
     url: 'https://www.sollet.io/extension',
-    icon: `${ASSET_URL}/sollet.svg`,
+    icon: `https://raw.githubusercontent.com/Fair-Exchange/spl-token-wallet/master/public/favicon.ico`,
     adapter: SolletExtensionAdapter as any,
   },
   {
@@ -44,29 +36,6 @@ export const WALLET_PROVIDERS = [
     url: 'https://www.ledger.com',
     icon: `${ASSET_URL}/ledger.svg`,
     adapter: LedgerWalletAdapter,
-  },
-  {
-    name: 'Solflare',
-    url: 'https://solflare.com/access-wallet',
-    icon: `${ASSET_URL}/solflare.svg`,
-  },
-  {
-    name: 'Solflare Extension',
-    url: 'https://solflare.com',
-    icon: `${ASSET_URL}/solflare.svg`,
-    adapter: SolflareExtensionWalletAdapter,
-  },
-  {
-    name: 'Phantom',
-    url: 'https://www.phantom.app',
-    icon: `https://www.phantom.app/img/logo.png`,
-    adapter: PhantomWalletAdapter,
-  },
-  {
-    name: 'MathWallet',
-    url: 'https://www.mathwallet.org',
-    icon: `${ASSET_URL}/mathwallet.svg`,
-    adapter: MathWalletAdapter,
   },
 ];
 
