@@ -1,11 +1,10 @@
 import {
   Market,
-  MARKETS,
   OpenOrders,
   Orderbook,
-  TOKEN_MINTS,
   TokenInstructions,
 } from '@safely-project/serum';
+import { MARKETS, TOKEN_MINTS } from '../clib/tokens_and_markets'
 import { PublicKey } from '@safecoin/web3.js';
 import React, { useContext, useEffect, useState } from 'react';
 import {

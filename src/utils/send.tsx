@@ -24,9 +24,9 @@ import {
   Market,
   OpenOrders,
   parseInstructionErrorResponse,
-  TOKEN_MINTS,
   TokenInstructions,
 } from '@safely-project/serum';
+import { TOKEN_MINTS } from '../clib/tokens_and_markets'
 import { SelectedTokenAccounts, TokenAccount } from './types';
 import { Order } from '@safely-project/serum/lib/market';
 import { Buffer } from 'buffer';

@@ -2,7 +2,7 @@ import * as BufferLayout from 'buffer-layout';
 import { AccountInfo, Connection, PublicKey } from '@safecoin/web3.js';
 import { WRAPPED_SOL_MINT } from '@safely-project/serum/lib/token-instructions';
 import { TokenAccount } from './types';
-import { TOKEN_MINTS } from '@safely-project/serum';
+import { TOKEN_MINTS } from '../clib/tokens_and_markets';
 import { useAllMarkets, useCustomMarkets, useTokenAccounts } from './markets';
 import { getMultipleSolanaAccounts } from './send';
 import { useConnection } from './connection';
