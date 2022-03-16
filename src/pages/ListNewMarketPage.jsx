@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, Tooltip, Typography } from 'antd';
 import { notify } from '../utils/notifications';
-import { MARKETS_LIST } from '@project-serum/serum';
+import { MARKETS } from '@safely-project/serum';
 import { useConnection } from '../utils/connection';
 import FloatingElement from '../components/layout/FloatingElement';
 import styled from 'styled-components';
@@ -27,7 +27,7 @@ export default function ListNewMarketPage() {
     <Text>
       Base Token Mint Address{' '}
       <Text type="secondary">
-        (e.g. BTC solana address:{' '}
+        (e.g. BTC safecoin address:{' '}
         {
           <Text type="secondary" code>
             9n4nbM75f5Ui33ZbPYXn59EwSgE8CGsHtAeTH5YFeJ9E
@@ -43,7 +43,7 @@ export default function ListNewMarketPage() {
     <Text>
       Quote Token Mint Address{' '}
       <Text type="secondary">
-        (e.g. USDT solana address:{' '}
+        (e.g. USDT safecoin address:{' '}
         {
           <Text type="secondary" code>
             BQcdHdAQW1hczDbBi9hiegXAR7A98Q9jx3X3iBBBDiq4
@@ -56,9 +56,7 @@ export default function ListNewMarketPage() {
   );
   const [lotSize, setLotSize] = useState('1');
   const [tickSize, setTickSize] = useState('0.01');
-  const dexProgramId = MARKETS_LIST.find(
-    ({ deprecated }) => deprecated,
-  ).programId;
+  const dexProgramId = MARKETS.find(({ deprecated }) => deprecated).programId;
   const [submitting, setSubmitting] = useState(false);
 
   const [listedMarket, setListedMarket] = useState(null);

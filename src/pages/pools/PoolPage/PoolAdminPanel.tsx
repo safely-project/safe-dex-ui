@@ -1,6 +1,9 @@
 import React, { FormEvent, useMemo, useState } from 'react';
-import { AdminControlledPoolInstructions, PoolInfo } from '@project-serum/pool';
-import { TokenInstructions } from '@project-serum/serum';
+import {
+  AdminControlledPoolInstructions,
+  PoolInfo,
+} from '@safely-project/pool';
+import { TokenInstructions } from '@safely-project/serum';
 import FloatingElement from '../../../components/layout/FloatingElement';
 import { useConnection } from '../../../utils/connection';
 import { useWallet } from '../../../utils/wallet';
@@ -20,7 +23,7 @@ import { AutoComplete, Button, Input, Select, Tabs } from 'antd';
 import {
   createAssociatedTokenAccount,
   getAssociatedTokenAddress,
-} from '@project-serum/associated-token';
+} from '@safely-project/associated-token';
 import { parseTokenMintData, useMintToTickers } from '../../../utils/tokens';
 import BN from 'bn.js';
 import { refreshAllCaches } from '../../../utils/fetch-loop';

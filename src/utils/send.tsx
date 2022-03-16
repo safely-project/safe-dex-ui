@@ -24,11 +24,11 @@ import {
   Market,
   OpenOrders,
   parseInstructionErrorResponse,
-  TOKEN_MINTS_LIST,
+  TOKEN_MINTS,
   TokenInstructions,
-} from '@project-serum/serum';
+} from '@safely-project/serum';
 import { SelectedTokenAccounts, TokenAccount } from './types';
-import { Order } from '@project-serum/serum/lib/market';
+import { Order } from '@safely-project/serum/lib/market';
 import { Buffer } from 'buffer';
 import assert from 'assert';
 import { struct } from 'superstruct';
@@ -127,8 +127,8 @@ export async function settleFunds({
   }
   let referrerQuoteWallet: PublicKey | null = null;
   if (market.supportsReferralFees) {
-    const usdt = TOKEN_MINTS_LIST.find(({ name }) => name === 'USDT');
-    const usdc = TOKEN_MINTS_LIST.find(({ name }) => name === 'USDC');
+    const usdt = TOKEN_MINTS.find(({ name }) => name === 'USDT');
+    const usdc = TOKEN_MINTS.find(({ name }) => name === 'USDC');
     if (usdtRef && usdt && market.quoteMintAddress.equals(usdt.address)) {
       referrerQuoteWallet = usdtRef;
     } else if (
@@ -442,7 +442,7 @@ export async function placeOrder({
   const matchOrderstransaction = market.makeMatchOrdersTransaction(5);
   transaction.add(matchOrderstransaction);
   const startTime = getUnixTs();
-  let { txn: placeOrderTx, sigs: placeOrderSigners } =
+  let { transaction: placeOrderTx, signers: placeOrderSigners } =
     await market.makePlaceOrderTransaction(
       connection,
       params,

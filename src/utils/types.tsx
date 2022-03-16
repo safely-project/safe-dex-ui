@@ -1,7 +1,7 @@
 import { AccountInfo, Connection, PublicKey } from '@safecoin/web3.js';
-import { Market, OpenOrders } from '@project-serum/serum';
-import { Event } from '@project-serum/serum/lib/queue';
-import { Order } from '@project-serum/serum/lib/market';
+import { Market, OpenOrders } from '@safely-project/serum';
+import { Event } from '@safely-project/serum/lib/queue';
+import { Order } from '@safely-project/serum/lib/market';
 import { WalletAdapter } from '../wallet-adapters';
 
 export interface ConnectionContextValues {

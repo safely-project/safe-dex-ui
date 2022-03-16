@@ -1,11 +1,11 @@
 import {
   Market,
-  MARKETS_LIST,
+  MARKETS,
   OpenOrders,
   Orderbook,
-  TOKEN_MINTS_LIST,
+  TOKEN_MINTS,
   TokenInstructions,
-} from '@project-serum/serum';
+} from '@safely-project/serum';
 import { PublicKey } from '@safecoin/web3.js';
 import React, { useContext, useEffect, useState } from 'react';
 import {
@@ -37,16 +37,16 @@ import {
   SelectedTokenAccounts,
   TokenAccount,
 } from './types';
-import { WRAPPED_SAFE_MINT } from '@project-serum/serum/lib/token-instructions';
-import { Order } from '@project-serum/serum/lib/market';
+import { WRAPPED_SAFE_MINT } from '@safely-project/serum/lib/token-instructions';
+import { Order } from '@safely-project/serum/lib/market';
 import BonfidaApi from './bonfidaConnector';
 
 // Used in debugging, should be false in production
 const _IGNORE_DEPRECATED = false;
 
 export const USE_MARKETS: MarketInfo[] = _IGNORE_DEPRECATED
-  ? MARKETS_LIST.map((m) => ({ ...m, deprecated: false }))
-  : MARKETS_LIST;
+  ? MARKETS.map((m) => ({ ...m, deprecated: false }))
+  : MARKETS;
 
 export function useMarketsList() {
   return USE_MARKETS.filter(
@@ -194,16 +194,14 @@ export function getMarketDetails(
   );
   const baseCurrency =
     (market?.baseMintAddress &&
-      TOKEN_MINTS_LIST.find((token) =>
-        token.address.equals(market.baseMintAddress),
-      )?.name) ||
+      TOKEN_MINTS.find((token) => token.address.equals(market.baseMintAddress))
+        ?.name) ||
     (marketInfo?.baseLabel && `${marketInfo?.baseLabel}*`) ||
     'UNKNOWN';
   const quoteCurrency =
     (market?.quoteMintAddress &&
-      TOKEN_MINTS_LIST.find((token) =>
-        token.address.equals(market.quoteMintAddress),
-      )?.name) ||
+      TOKEN_MINTS.find((token) => token.address.equals(market.quoteMintAddress))
+        ?.name) ||
     (marketInfo?.quoteLabel && `${marketInfo?.quoteLabel}*`) ||
     'UNKNOWN';
 

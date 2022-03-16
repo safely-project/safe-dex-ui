@@ -3,7 +3,7 @@ import React, { ReactElement, useMemo, useState } from 'react';
 import { useAccountInfo } from '../utils/connection';
 import { isValidPublicKey } from '../utils/utils';
 import { ValidateStatus } from 'antd/lib/form/FormItem';
-import { TokenInstructions } from '@project-serum/serum';
+import { TokenInstructions } from '@safely-project/serum';
 import { parseTokenMintData, useMintToTickers } from '../utils/tokens';
 import { AutoComplete, Form, Tooltip } from 'antd';
 import Link from './Link';
@@ -62,17 +62,17 @@ export function useMintInput(
             };
           } else {
             validateStatus = 'error';
-            help = 'Invalid SPL mint';
+            help = 'Invalid Safetoken mint';
           }
         } else {
           validateStatus = 'error';
-          help = 'Invalid SPL mint address';
+          help = 'Invalid Safetoken mint address';
         }
       } else if (isValidPublicKey(address) && !loaded) {
         validateStatus = 'validating';
       } else {
         validateStatus = 'error';
-        help = 'Invalid Solana address';
+        help = 'Invalid Safecoin address';
       }
     }
     return { validateStatus, hasFeedback, help, mintInfo };

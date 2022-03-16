@@ -1,24 +1,23 @@
 import React, { useRef, useState } from 'react';
 import { Select, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { TOKEN_MINTS_LIST } from '@project-serum/serum';
-import apps from '@project-serum/awesome-serum';
+import { TOKEN_MINTS } from '@safely-project/serum';
 
+var apps: any[] = [];
 const { Option } = Select;
 
 const appsAndTokens = apps.concat(
-  TOKEN_MINTS_LIST.map((mint) => {
+  TOKEN_MINTS.map((mint) => {
     return {
-      name: `${mint.name} SPL`,
+      name: `${mint.name} Safe`,
       url: `https://explorer.safecoin.org/address/${mint.address.toBase58()}?cluster=devnet`,
-      description: `${mint.name} SPL token`,
+      description: `${mint.name} Safe token`,
       icon: '',
       tags: [
         'token',
         'blockchain',
-        'solana',
-        'spl',
-        'solana',
+        'SafeCoin',
+        'Safe',
         mint.address.toBase58(),
       ],
     };

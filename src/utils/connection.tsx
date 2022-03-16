@@ -38,7 +38,7 @@ export function ConnectionProvider({ children }) {
     [endpoint],
   );
 
-  // The websocket library solana/web3.js uses closes its websocket connection when the subscription list
+  // The websocket library safecoin/web3.js uses closes its websocket connection when the subscription list
   // is empty after opening its first time, preventing subsequent subscriptions from receiving responses.
   // This is a hack to prevent the list from every getting empty
   useEffect(() => {

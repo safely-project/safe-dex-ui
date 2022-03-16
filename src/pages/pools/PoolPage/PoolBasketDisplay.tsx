@@ -1,4 +1,4 @@
-import { Basket, PoolInfo } from '@project-serum/pool';
+import { Basket, PoolInfo } from '@safely-project/pool';
 import React from 'react';
 import BN from 'bn.js';
 import { PublicKey } from '@safecoin/web3.js';

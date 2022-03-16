@@ -3,7 +3,7 @@ import { Col, Input, Modal, Row, Typography } from 'antd';
 import { notify } from '../utils/notifications';
 import { isValidPublicKey } from '../utils/utils';
 import { PublicKey } from '@safecoin/web3.js';
-import { Market, MARKETS_LIST, TOKEN_MINTS_LIST } from '@project-serum/serum';
+import { Market, MARKETS, TOKEN_MINTS } from '@safely-project/serum';
 import { useAccountInfo, useConnection } from '../utils/connection';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -32,7 +32,7 @@ export default function CustomMarketDialog({
   );
   const programId = marketAccountInfo
     ? marketAccountInfo.owner.toBase58()
-    : MARKETS_LIST.find(({ deprecated }) => deprecated).programId.toBase58();
+    : MARKETS.find(({ deprecated }) => deprecated).programId.toBase58();
 
   useEffect(() => {
     if (!wellFormedMarketId || !programId) {
@@ -63,24 +63,22 @@ export default function CustomMarketDialog({
     setQuoteLabel(null);
   };
 
-  const knownMarket = MARKETS_LIST.find(
+  const knownMarket = MARKETS.find(
     (m) =>
       m.address.toBase58() === marketId && m.programId.toBase58() === programId,
   );
-  const knownProgram = MARKETS_LIST.find(
+  const knownProgram = MARKETS.find(
     (m) => m.programId.toBase58() === programId,
   );
   const knownBaseCurrency =
     market?.baseMintAddress &&
-    TOKEN_MINTS_LIST.find((token) =>
-      token.address.equals(market.baseMintAddress),
-    )?.name;
+    TOKEN_MINTS.find((token) => token.address.equals(market.baseMintAddress))
+      ?.name;
 
   const knownQuoteCurrency =
     market?.quoteMintAddress &&
-    TOKEN_MINTS_LIST.find((token) =>
-      token.address.equals(market.quoteMintAddress),
-    )?.name;
+    TOKEN_MINTS.find((token) => token.address.equals(market.quoteMintAddress))
+      ?.name;
 
   const canSubmit =
     !loadingMarket &&
