@@ -1,5 +1,6 @@
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import TradePage from './pages/TradePage';
+//import TradePage from './pages/TradePage';
+import TradePagev2 from './pages/TradePageV2';
 import OpenOrdersPage from './pages/OpenOrdersPage';
 import React from 'react';
 import BalancesPage from './pages/BalancesPage';
@@ -21,7 +22,7 @@ export function Routes() {
               <Redirect to={getTradePageUrl()} />
             </Route>
             <Route exact path="/market/:marketAddress">
-              <TradePage />
+              <TradePagev2 />
             </Route>
             <Route exact path="/orders" component={OpenOrdersPage} />
             <Route exact path="/balances" component={BalancesPage} />
