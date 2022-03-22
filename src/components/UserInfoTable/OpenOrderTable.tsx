@@ -131,7 +131,7 @@ export default function OpenOrderTable({
   }));
 
   return (
-    <Row>
+    <Row  >
       <Col span={24}>
         <DataTable
           emptyLabel="No open orders"

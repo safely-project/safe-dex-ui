@@ -28,6 +28,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { nanoid } from 'nanoid';
 
 import { TVChartContainer } from '../components/TradingView';
+import WrapperMarket from '../components/MarketListC';
+import FloatingElement from '../components/layout/FloatingElement';
 // Use following stub for quick setup without the TradingView private dependency
 // function TVChartContainer() {
 //   return <></>
@@ -165,33 +167,6 @@ function TradePageInner() {
           style={{ paddingLeft: 5, paddingRight: 5 }}
           gutter={16}
         >
-          <Col>
-            <MarketSelector
-              markets={markets}
-              setHandleDeprecated={setHandleDeprecated}
-              placeholder={'Select market'}
-              customMarkets={customMarkets}
-              onDeleteCustomMarket={onDeleteCustomMarket}
-            />
-          </Col>
-          {market ? (
-            <Col>
-              <Popover
-                content={<LinkAddress address={market.publicKey.toBase58()} />}
-                placement="bottomRight"
-                title="Market address"
-                trigger="click"
-              >
-                <InfoCircleOutlined style={{ color: '#2abdd2' }} />
-              </Popover>
-            </Col>
-          ) : null}
-          <Col>
-            <PlusCircleOutlined
-              style={{ color: '#2abdd2' }}
-              onClick={() => setAddMarketVisible(true)}
-            />
-          </Col>
           {deprecatedMarkets && deprecatedMarkets.length > 0 && (
             <React.Fragment>
               <Col>
@@ -237,9 +212,11 @@ function MarketSelector({
         market?.address && proposedMarket.address.equals(market.address),
     )
     ?.address?.toBase58();
-
+  console.log("onSelect={onSetMarketAddress} ", onSetMarketAddress)
+  console.log("value={selectedMarket} ", selectedMarket)
   return (
     <Select
+      //defaultOpen={true}
       showSearch
       size={'large'}
       style={{ width: 200 }}
@@ -290,15 +267,15 @@ function MarketSelector({
               ? -1
               : extractQuote(a.name) !== 'USDT' &&
                 extractQuote(b.name) === 'USDT'
-              ? 1
-              : 0,
+                ? 1
+                : 0,
           )
           .sort((a, b) =>
             extractBase(a.name) < extractBase(b.name)
               ? -1
               : extractBase(a.name) > extractBase(b.name)
-              ? 1
-              : 0,
+                ? 1
+                : 0,
           )
           .map(({ address, name, deprecated }, i) => (
             <Option
@@ -318,6 +295,7 @@ function MarketSelector({
     </Select>
   );
 }
+
 
 const DeprecatedMarketsPage = ({ switchToLiveMarkets }) => {
   return (
@@ -342,8 +320,7 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       }}
     >
       <Col flex={'280px'} style={{ height: '100%' }}>
-        
-        <MarketListC smallScreen={false} />
+        <WrapperMarket />
       </Col>
       <Col flex={'360px'} style={{ height: '100%' }}>
         <Orderbook smallScreen={false} onPrice={onPrice} onSize={onSize} />
@@ -351,7 +328,9 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       </Col>
       <Col flex="auto" style={{ height: '50vh' }}>
         <Row style={{ height: '100%' }}>
-          <TVChartContainer />
+          <FloatingElement style={{ flex: 1, paddingTop: 10 }}>
+            <TVChartContainer />
+          </FloatingElement>
         </Row>
         <Row style={{ height: '70%' }}>
           <UserInfoTable />
@@ -372,7 +351,7 @@ const RenderSmall = ({ onChangeOrderRef, onPrice, onSize }) => {
   return (
     <>
       <Row style={{ height: '30vh' }}>
-         {/*<TVChartContainer />*/}
+        {/*<TVChartContainer />*/}
       </Row>
       <Row
         style={{
@@ -411,7 +390,7 @@ const RenderSmaller = ({ onChangeOrderRef, onPrice, onSize }) => {
   return (
     <>
       <Row style={{ height: '50vh' }}>
-         {/*<TVChartContainer />*/}
+        {/*<TVChartContainer />*/}
       </Row>
       <Row>
         <Col xs={24} sm={12} style={{ height: '100%', display: 'flex' }}>

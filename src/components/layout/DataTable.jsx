@@ -25,6 +25,7 @@ export default function DataTable({
   return (
     <ConfigProvider renderEmpty={customizeRenderEmpty}>
       <Table
+        size="small"
         dataSource={dataSource}
         columns={columns}
         pagination={pagination ? { pagination: true, pageSize } : false}

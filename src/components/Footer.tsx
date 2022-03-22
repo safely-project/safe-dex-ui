@@ -8,14 +8,14 @@ const { useBreakpoint } = Grid;
 
 const footerElements = [
   {
-    description: 'Serum Developer Resources',
+    description: 'Safeswap Developer Resources',
     link: helpUrls.developerResources,
   },
   { description: 'Discord', link: helpUrls.discord },
   { description: 'Telegram', link: helpUrls.telegram },
   { description: 'GitHub', link: helpUrls.github },
-  { description: 'Project Serum', link: helpUrls.projectSerum },
-  { description: 'Solana Network', link: helpUrls.solanaBeach },
+  { description: 'Safely Project', link: helpUrls.projectSerum },
+  { description: 'Safecoin Network', link: helpUrls.solanaBeach },
 ];
 
 export const CustomFooter = () => {
@@ -27,6 +27,7 @@ export const CustomFooter = () => {
         height: '55px',
         paddingBottom: 10,
         paddingTop: 10,
+        background: '#11161d',
       }}
     >
       {refCode && allowRefLink && (

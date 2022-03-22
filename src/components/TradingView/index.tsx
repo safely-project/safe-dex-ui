@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './index.css'; 
+import './index.css';
 
 import {
   widget,
@@ -31,7 +31,7 @@ export interface ChartContainerProps {
   theme: string;
 }
 
-export interface ChartContainerState {}
+export interface ChartContainerState { }
 
 export const TVChartContainer = () => {
   // let datafeed = useTvDataFeed();
@@ -53,6 +53,7 @@ export const TVChartContainer = () => {
     studiesOverrides: {},
   };
 
+  const bgcolor = '#1a2029'
   const tvWidgetRef = React.useRef<IChartingLibraryWidget | null>(null);
   const { market } = useMarket();
 
@@ -83,11 +84,11 @@ export const TVChartContainer = () => {
       container_id:
         defaultProps.containerId as ChartingLibraryWidgetOptions['container_id'],
       library_path: defaultProps.libraryPath as string,
-      auto_save_delay: 5,
+      auto_save_delay: 10,
 
       locale: 'en',
-      disabled_features: ['use_localstorage_for_settings'],
-      enabled_features: ['study_templates'],
+      //disabled_features: ['use_localstorage_for_settings'],
+      enabled_features: ['study_templates', 'hide_left_toolbar_by_default'],
       load_last_chart: true,
       client_id: defaultProps.clientId,
       user_id: defaultProps.userId,
@@ -95,6 +96,19 @@ export const TVChartContainer = () => {
       autosize: defaultProps.autosize,
       studies_overrides: defaultProps.studiesOverrides,
       theme: defaultProps.theme === 'Dark' ? 'Dark' : 'Light',
+
+      disabled_features: ["use_localstorage_for_settings"
+        , "link_to_tradingview"
+        , "volume_force_overlay"
+        , "header_interval_dialog_button"
+        //, "show_dialog_on_snapshot_ready"
+        , "study_templates"
+        , "chart_property_page_trading"
+        , "chart_crosshair_menu"
+        , "hide_last_na_study_output"
+        ,'header_screenshot' 
+        ,'header_symbol_search'
+      ],
       overrides: {
         ...savedProperties,
         'mainSeriesProperties.candleStyle.upColor': '#41C77A',
@@ -103,7 +117,23 @@ export const TVChartContainer = () => {
         'mainSeriesProperties.candleStyle.borderDownColor': '#F23B69',
         'mainSeriesProperties.candleStyle.wickUpColor': '#41C77A',
         'mainSeriesProperties.candleStyle.wickDownColor': '#F23B69',
+        "paneProperties.background": bgcolor,
+        "paneProperties.backgroundType": "solid",
+        "theme": "#000000",
+        "scalesProperties.backgroundColor": bgcolor,
+        "paneProperties.vertGridProperties.color": bgcolor,
+        "paneProperties.horzGridProperties.color": bgcolor,
+        "allow_symbol_change": false,
+        "save_image": false,
+        
+        //  'scalesProperties.backgroundColor' : "#ffffff"
       },
+      loading_screen: {
+        backgroundColor: "transparent",
+      },
+     // custom_css_url: 'css/style.css',
+      toolbar_bg: bgcolor,
+      
       // @ts-ignore
       save_load_adapter: saveLoadAdapter,
       settings_adapter: {
