@@ -2,7 +2,7 @@ import { RBTree } from 'bintrees';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useMarket } from './markets';
 
-const WS_URL = 'wss://api.serum-vial.dev/v1/ws';
+const WS_URL = 'ws://161.97.120.59:8000/v1/ws';
 
 class SerumVialClient {
   private _ws: WebSocket | undefined = undefined;

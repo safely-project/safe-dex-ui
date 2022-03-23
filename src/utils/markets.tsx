@@ -39,7 +39,7 @@ import {
 import { WRAPPED_SOL_MINT } from '@safely-project/serum/lib/token-instructions';
 import { Order } from '@safely-project/serum/lib/market';
 import BonfidaApi from './bonfidaConnector';
-
+import { useSerumVialMarketData } from './serum-vial';
 // Used in debugging, should be false in production
 const _IGNORE_DEPRECATED = false;
 
@@ -319,12 +319,11 @@ export function useMarket() {
 export function useMarkPrice() {
   const [markPrice, setMarkPrice] = useState<null | number>(null);
 
-  const [orderbook] = useOrderbook();
-  const trades = useTrades();
+  const { orderBook, trades } = useSerumVialMarketData();
 
   useEffect(() => {
-    let bb = orderbook?.bids?.length > 0 && Number(orderbook.bids[0][0]);
-    let ba = orderbook?.asks?.length > 0 && Number(orderbook.asks[0][0]);
+    let bb = orderBook?.bids?.length > 0 && Number(orderBook.bids[0][0]);
+    let ba = orderBook?.asks?.length > 0 && Number(orderBook.asks[0][0]);
     let last = trades && trades.length > 0 && trades[0].price;
 
     let markPrice =
@@ -335,7 +334,7 @@ export function useMarkPrice() {
         : null;
 
     setMarkPrice(markPrice);
-  }, [orderbook, trades]);
+  }, [orderBook, trades]);
 
   return markPrice;
 }
@@ -585,11 +584,11 @@ export function useLocallyStoredFeeDiscountKey(): {
 export function useFeeDiscountKeys(): [
   (
     | {
-        pubkey: PublicKey;
-        feeTier: number;
-        balance: number;
-        mint: PublicKey;
-      }[]
+      pubkey: PublicKey;
+      feeTier: number;
+      balance: number;
+      mint: PublicKey;
+    }[]
     | null
     | undefined
   ),
@@ -824,8 +823,8 @@ export function useBalances(): Balances[] {
       orders:
         baseExists && market && openOrders
           ? market.baseSplSizeToNumber(
-              openOrders.baseTokenTotal.sub(openOrders.baseTokenFree),
-            )
+            openOrders.baseTokenTotal.sub(openOrders.baseTokenFree),
+          )
           : null,
       openOrders,
       unsettled:
@@ -842,8 +841,8 @@ export function useBalances(): Balances[] {
       orders:
         quoteExists && market && openOrders
           ? market.quoteSplSizeToNumber(
-              openOrders.quoteTokenTotal.sub(openOrders.quoteTokenFree),
-            )
+            openOrders.quoteTokenTotal.sub(openOrders.quoteTokenFree),
+          )
           : null,
       unsettled:
         quoteExists && market && openOrders
