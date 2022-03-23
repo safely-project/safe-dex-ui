@@ -1,11 +1,11 @@
 import { Col, Row } from 'antd';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import { useMarket, useOrderbook, useMarkPrice } from '../utils/markets';
+import { useMarket, useMarkPrice } from '../utils/markets';
 import { isEqual, getDecimalCount } from '../utils/utils';
-import { useInterval } from '../utils/useInterval';
 import FloatingElement from './layout/FloatingElement';
 import usePrevious from '../utils/usePrevious';
+import { useSerumVialMarketData } from '../utils/serum-vial';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { COLORS } from './colors';
 
@@ -45,66 +45,42 @@ const Price = styled.div`
   color: white;
 `;
 
+function getCumulativeOrderbookSide(orders, totalSize, backwards = false) {
+  let cumulative = orders.reduce((cumulative, [price, size], i) => {
+    const cumulativeSize = (cumulative[i - 1]?.cumulativeSize || 0) + size;
+    cumulative.push({
+      price,
+      size,
+      cumulativeSize,
+      sizePercent: Math.round((cumulativeSize / (totalSize || 1)) * 100),
+    });
+    return cumulative;
+  }, []);
+  if (backwards) {
+    cumulative = cumulative.reverse();
+  }
+  return cumulative;
+}
+
 export default function Orderbook({ smallScreen, depth = 7, onPrice, onSize }) {
   const markPrice = useMarkPrice();
-  const [orderbook] = useOrderbook();
   const { baseCurrency, quoteCurrency } = useMarket();
 
-  const currentOrderbookData = useRef(null);
-  const lastOrderbookData = useRef(null);
+  const { orderBook } = useSerumVialMarketData();
+  let sum = (total, [, size], index) => (index < depth ? total + size : total);
 
-  const [orderbookData, setOrderbookData] = useState(null);
+  let totalSize = orderBook.bids.reduce(sum, 0) + orderBook.asks.reduce(sum, 0);
 
-  useInterval(() => {
-    if (
-      !currentOrderbookData.current ||
-      JSON.stringify(currentOrderbookData.current) !==
-        JSON.stringify(lastOrderbookData.current)
-    ) {
-      let bids = orderbook?.bids || [];
-      let asks = orderbook?.asks || [];
-
-      let sum = (total, [, size], index) =>
-        index < depth ? total + size : total;
-      let totalSize = bids.reduce(sum, 0) + asks.reduce(sum, 0);
-
-      let bidsToDisplay = getCumulativeOrderbookSide(bids, totalSize, false);
-      let asksToDisplay = getCumulativeOrderbookSide(asks, totalSize, true);
-
-      currentOrderbookData.current = {
-        bids: orderbook?.bids,
-        asks: orderbook?.asks,
-      };
-
-      setOrderbookData({ bids: bidsToDisplay, asks: asksToDisplay });
-    }
-  }, 250);
-
-  useEffect(() => {
-    lastOrderbookData.current = {
-      bids: orderbook?.bids,
-      asks: orderbook?.asks,
-    };
-  }, [orderbook]);
-
-  function getCumulativeOrderbookSide(orders, totalSize, backwards = false) {
-    let cumulative = orders
-      .slice(0, depth)
-      .reduce((cumulative, [price, size], i) => {
-        const cumulativeSize = (cumulative[i - 1]?.cumulativeSize || 0) + size;
-        cumulative.push({
-          price,
-          size,
-          cumulativeSize,
-          sizePercent: Math.round((cumulativeSize / (totalSize || 1)) * 100),
-        });
-        return cumulative;
-      }, []);
-    if (backwards) {
-      cumulative = cumulative.reverse();
-    }
-    return cumulative;
-  }
+  let bidsToDisplay = getCumulativeOrderbookSide(
+    orderBook.bids.slice(0, depth),
+    totalSize,
+    false,
+  );
+  let asksToDisplay = getCumulativeOrderbookSide(
+    orderBook.asks.slice(0, depth),
+    totalSize,
+    true,
+  );
 
   return (
     <FloatingElement
@@ -128,7 +104,7 @@ export default function Orderbook({ smallScreen, depth = 7, onPrice, onSize }) {
             opacity: '0.8',
           }}
         >
-          Orderbook
+          Recent market trades
         </Title>
       </div>
       <SizeTitle>
@@ -139,7 +115,7 @@ export default function Orderbook({ smallScreen, depth = 7, onPrice, onSize }) {
           Price ({quoteCurrency})
         </Col>
       </SizeTitle>
-      {orderbookData?.asks.map(({ price, size, sizePercent }) => (
+      {asksToDisplay.map(({ price, size, sizePercent }) => (
         <OrderbookRow
           key={price + ''}
           price={price}
@@ -151,7 +127,7 @@ export default function Orderbook({ smallScreen, depth = 7, onPrice, onSize }) {
         />
       ))}
       <MarkPriceComponent markPrice={markPrice} />
-      {orderbookData?.bids.map(({ price, size, sizePercent }) => (
+      {bidsToDisplay.map(({ price, size, sizePercent }) => (
         <OrderbookRow
           key={price + ''}
           price={price}
@@ -197,16 +173,16 @@ const OrderbookRow = React.memo(
 
     return (
       <Row ref={element} style={{ marginBottom: 1 }} onClick={onSizeClick}>
-        <Col span={12} style={{ textAlign: 'left', fontFamily: 'monospace' }}>
+        <Col span={12} style={{ textAlign: 'left' }}>
           {formattedSize}
         </Col>
-        <Col span={12} style={{ textAlign: 'right', fontFamily: 'monospace' }}>
+        <Col span={12} style={{ textAlign: 'right' }}>
           <Line
             data-width={sizePercent + '%'}
             data-bgcolor={
               side === 'buy'
-                ? 'rgba(65, 199, 122, 0.3)'
-                : 'rgba(242, 60, 105, 0.3)'
+                ? 'rgba(65, 199, 122, 0.6)'
+                : 'rgba(242, 60, 105, 0.6)'
             }
           />
           <Price onClick={onPriceClick}>{formattedPrice}</Price>

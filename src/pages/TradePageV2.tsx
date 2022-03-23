@@ -30,6 +30,7 @@ import { nanoid } from 'nanoid';
 import { TVChartContainer } from '../components/TradingView';
 import WrapperMarket from '../components/MarketListC';
 import FloatingElement from '../components/layout/FloatingElement';
+import { SerumVialProvider } from '../utils/serum-vial';
 // Use following stub for quick setup without the TradingView private dependency
 // function TVChartContainer() {
 //   return <></>
@@ -64,7 +65,10 @@ export default function TradePage() {
       marketAddress={marketAddress}
       setMarketAddress={setMarketAddress}
     >
-      <TradePageInner />
+      <SerumVialProvider>
+        <TradePageInner />
+      </SerumVialProvider>
+
     </MarketProvider>
   );
 }

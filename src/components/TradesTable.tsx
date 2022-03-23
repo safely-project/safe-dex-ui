@@ -1,10 +1,10 @@
 import { Col, Row } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
-import { useMarket, useBonfidaTrades } from '../utils/markets';
+import { useMarket } from '../utils/markets';
 import { getDecimalCount } from '../utils/utils';
 import FloatingElement from './layout/FloatingElement';
-import { BonfidaTrade } from '../utils/types';
+import { useSerumVialMarketData } from '../utils/serum-vial';
 import { COLORS } from './colors';
 
 const Title = styled.div`
@@ -17,7 +17,7 @@ const SizeTitle = styled(Row)`
 
 export default function PublicTrades({ smallScreen }) {
   const { baseCurrency, quoteCurrency, market } = useMarket();
-  const [trades, loaded] = useBonfidaTrades();
+  const { trades } = useSerumVialMarketData();
 
   return (
     <FloatingElement
@@ -48,7 +48,7 @@ export default function PublicTrades({ smallScreen }) {
           Time
         </Col>
       </SizeTitle>
-      {!!trades && loaded && (
+      {trades.length > 0 && (
         <div
           style={{
             marginRight: '-20px',
@@ -59,7 +59,7 @@ export default function PublicTrades({ smallScreen }) {
               : 'calc(100vh - 800px)',
           }}
         >
-          {trades.map((trade: BonfidaTrade, i: number) => (
+          {trades.map((trade, i: number) => (
             <Row key={i} style={{ marginBottom: 4 }}>
               <Col
                 span={8}
@@ -81,7 +81,7 @@ export default function PublicTrades({ smallScreen }) {
                   : trade.size}
               </Col>
               <Col span={8} style={{ textAlign: 'right', color: '#434a59' }}>
-                {trade.time && new Date(trade.time).toLocaleTimeString()}
+                {new Date(trade.timestamp).toLocaleTimeString()}
               </Col>
             </Row>
           ))}
