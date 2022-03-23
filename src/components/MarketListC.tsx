@@ -10,6 +10,7 @@ import { DeleteOutlined, InfoCircleOutlined, PlusCircleOutlined } from '@ant-des
 import { notify } from '../utils/notifications';
 import LinkAddress from './LinkAddress';
 import CustomMarketDialog from './CustomMarketDialog';
+import { COLORS } from './colors';
 
 const Title = styled.div`
   color: rgba(255, 255, 255, 1);
@@ -94,19 +95,27 @@ export default function WrapperMarket() {
 
   return (
     <>
-      <FloatingElement style={{ flex: 1, paddingTop: 10,  }}>
-      <CustomMarketDialog
-        visible={addMarketVisible}
-        onClose={() => setAddMarketVisible(false)}
-        onAddCustomMarket={onAddCustomMarket}
-      />
+      <FloatingElement style={{ flex: 1 }}>
+      <div style={{ backgroundColor: COLORS.secondary, borderTopLeftRadius: '6px', borderTopRightRadius: '6px', padding: '10px' }}>
+            <Title style={{
+              paddingLeft: '10px',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              opacity: '0.8'
+            }}>Markets</Title>
+          </div>
+        <CustomMarketDialog
+          visible={addMarketVisible}
+          onClose={() => setAddMarketVisible(false)}
+          onAddCustomMarket={onAddCustomMarket}
+        />
         <Row
           align="stretch"
-          style={{ paddingLeft: 5, paddingRight: 5, justifyContent:'space-between' }}
+          style={{ paddingLeft: 5, paddingRight: 5, justifyContent: 'space-between' }}
           gutter={16}
         >
-          <Title>Markets</Title>
-          <div style={{display: 'flex'}}>
+
+          <div style={{ display: 'flex' }}>
             {market ? (
               <Col>
                 <Popover
@@ -317,16 +326,16 @@ function MarketListCustom({
             )
             .map(({ address, name, deprecated }, i) => (
               <Button
-              block
-              type="link"
-              size="large"
+                block
+                type="link"
+                size="large"
                 value={address.toBase58()}
                 key={nanoid()}
                 onClick={() => setMarketAddress(address.toBase58())}
                 name={name}
                 style={{
-                  textAlign:"left",
-                 //padding: '10px',
+                  textAlign: "left",
+                  //padding: '10px',
                   // @ts-ignore
                   backgroundColor: i % 2 === 0 ? 'rgb(39, 44, 61)' : null,
                 }}

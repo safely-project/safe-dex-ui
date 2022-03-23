@@ -1,7 +1,7 @@
 export const COLORS = {
-  main: '#fff',
-  primary: '#000',
-  secondary: '#000',
+  main: '#04090f', // bg...
+  primary: '#0f1722', // boxes
+  secondary: '#18222f', // component headers
   accent: '#000',
   // your colors
 }

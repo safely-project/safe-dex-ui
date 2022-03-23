@@ -7,6 +7,7 @@ import { useInterval } from '../utils/useInterval';
 import FloatingElement from './layout/FloatingElement';
 import usePrevious from '../utils/usePrevious';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import { COLORS } from './colors';
 
 const Title = styled.div`
   color: rgba(255, 255, 255, 1);
@@ -111,8 +112,24 @@ export default function Orderbook({ smallScreen, depth = 7, onPrice, onSize }) {
         smallScreen ? { flex: 1 } : { height: '500px', overflow: 'hidden' }
       }
     >
-      <div style={{ backgroundColor: '#ffffff' }}>
-        <Title>Orderbook</Title>
+      <div
+        style={{
+          backgroundColor: COLORS.secondary,
+          borderTopLeftRadius: '6px',
+          borderTopRightRadius: '6px',
+          padding: '10px',
+        }}
+      >
+        <Title
+          style={{
+            paddingLeft: '10px',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            opacity: '0.8',
+          }}
+        >
+          Orderbook
+        </Title>
       </div>
       <SizeTitle>
         <Col span={12} style={{ textAlign: 'left' }}>
@@ -180,16 +197,16 @@ const OrderbookRow = React.memo(
 
     return (
       <Row ref={element} style={{ marginBottom: 1 }} onClick={onSizeClick}>
-        <Col span={12} style={{ textAlign: 'left' }}>
+        <Col span={12} style={{ textAlign: 'left', fontFamily: 'monospace' }}>
           {formattedSize}
         </Col>
-        <Col span={12} style={{ textAlign: 'right' }}>
+        <Col span={12} style={{ textAlign: 'right', fontFamily: 'monospace' }}>
           <Line
             data-width={sizePercent + '%'}
             data-bgcolor={
               side === 'buy'
-                ? 'rgba(65, 199, 122, 0.6)'
-                : 'rgba(242, 60, 105, 0.6)'
+                ? 'rgba(65, 199, 122, 0.3)'
+                : 'rgba(242, 60, 105, 0.3)'
             }
           />
           <Price onClick={onPriceClick}>{formattedPrice}</Price>

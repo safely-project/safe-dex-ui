@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { COLORS } from '../colors';
 const Wrapper = styled.div`
   margin: 4px;
+  border-radius: 6px;
 `;
 
 export default function FloatingElement({
@@ -15,7 +16,7 @@ export default function FloatingElement({
       style={{
         height: stretchVertical ? 'calc(100% - 10px)' : undefined,
         ...style,
-        backgroundColor: '#1a2029',
+        backgroundColor: COLORS.primary,
       }}
     >
       {children}
