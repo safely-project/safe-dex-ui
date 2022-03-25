@@ -11,6 +11,9 @@ import * as saveLoadAdapter from './saveLoadAdapter';
 import { flatten } from '../../utils/utils';
 import { BONFIDA_DATA_FEED } from '../../utils/bonfidaConnector';
 
+import { COLORS } from '../colors';
+import styled from 'styled-components';
+
 export interface ChartContainerProps {
   symbol: ChartingLibraryWidgetOptions['symbol'];
   interval: ChartingLibraryWidgetOptions['interval'];
@@ -30,6 +33,10 @@ export interface ChartContainerProps {
   containerId: ChartingLibraryWidgetOptions['container_id'];
   theme: string;
 }
+
+const Title = styled.div`
+  color: rgba(255, 255, 255, 1);
+`;
 
 export interface ChartContainerState { }
 
@@ -53,7 +60,7 @@ export const TVChartContainer = () => {
     studiesOverrides: {},
   };
 
-  const bgcolor = '#1a2029'
+  const bgcolor = '#0f1722'
   const tvWidgetRef = React.useRef<IChartingLibraryWidget | null>(null);
   const { market } = useMarket();
 
@@ -106,8 +113,8 @@ export const TVChartContainer = () => {
         , "chart_property_page_trading"
         , "chart_crosshair_menu"
         , "hide_last_na_study_output"
-        ,'header_screenshot' 
-        ,'header_symbol_search'
+        , 'header_screenshot'
+        , 'header_symbol_search'
       ],
       overrides: {
         ...savedProperties,
@@ -125,15 +132,15 @@ export const TVChartContainer = () => {
         "paneProperties.horzGridProperties.color": bgcolor,
         "allow_symbol_change": false,
         "save_image": false,
-        
+
         //  'scalesProperties.backgroundColor' : "#ffffff"
       },
       loading_screen: {
         backgroundColor: "transparent",
       },
-     // custom_css_url: 'css/style.css',
+      // custom_css_url: 'css/style.css',
       toolbar_bg: bgcolor,
-      
+
       // @ts-ignore
       save_load_adapter: saveLoadAdapter,
       settings_adapter: {
@@ -178,5 +185,35 @@ export const TVChartContainer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [market, tvWidgetRef.current]);
 
-  return <div id={defaultProps.containerId} className={'TVChartContainer'} />;
+  return (
+    <>
+      <div
+        style={{
+          backgroundColor: COLORS.secondary,
+          borderTopLeftRadius: '6px',
+          borderTopRightRadius: '6px',
+          padding: '10px',
+          
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Title
+            style={{
+              paddingLeft: '10px',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              opacity: '0.8',
+            }}
+          >
+            Chart
+          </Title>
+          <div style={{display:'flex'}}>
+            <div>Simple</div>
+            <div>Advanced</div>
+          </div>
+        </div>
+      </div>
+      <div id={defaultProps.containerId} className={'TVChartContainer'} />
+    </>
+  );
 };

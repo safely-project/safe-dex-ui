@@ -1,45 +1,68 @@
 import BalancesTable from './BalancesTable';
 import OpenOrderTable from './OpenOrderTable';
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, Typography } from 'antd';
 import FillsTable from './FillsTable';
 import FloatingElement from '../layout/FloatingElement';
 import FeesTable from './FeesTable';
 import { useOpenOrders, useBalances, useMarket } from '../../utils/markets';
-
+import { COLORS } from '../colors';
+import styled, { css } from 'styled-components';
 const { Paragraph } = Typography;
 const { TabPane } = Tabs;
 
+const Title = styled.div`
+  color: rgba(255, 255, 255, 1);
+`;
 export default function Index() {
   const { market } = useMarket();
+  const [activekey, setActiveKey] = useState('orders');
+
+  function callback(key) {
+    console.log('KEY ', key);
+    setActiveKey(key);
+  }
+
   return (
-    <FloatingElement style={{ flex: 1, paddingTop: 5 }}>
-      {/*<Typography>
-        <Paragraph style={{ color: 'rgba(255,255,255,0.5)' }}>
-          Make sure to go to Balances and click Settle to send out your funds.
-        </Paragraph>
-        <Paragraph style={{ color: 'rgba(255,255,255,0.5)' }}>
-          To fund your wallet, <a href="https://www.sollet.io">sollet.io</a>.
-          You can get SOL from FTX, Binance, BitMax, and others. You can get
-          other tokens from FTX.{' '}
-        </Paragraph>
-  </Typography>*/}
-      <Tabs defaultActiveKey="orders">
-        <TabPane tab="Open Orders" key="orders">
-          <OpenOrdersTab />
-        </TabPane>
-        <TabPane tab="Recent Trade History" key="fills">
-          <FillsTable />
-        </TabPane>
-        <TabPane tab="Balances" key="balances">
-          <BalancesTab />
-        </TabPane>
-        {/*market && market.supportsSrmFeeDiscounts ? (
+    <FloatingElement style={{ flex: 1 }}>
+      <div
+        style={{
+          backgroundColor: COLORS.secondary,
+          borderTopLeftRadius: '6px',
+          borderTopRightRadius: '6px',
+          padding: '10px',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Title
+            style={{
+              paddingLeft: '10px',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              opacity: '0.8',
+            }}
+          >
+            My Orders
+          </Title>
+          <div style={{ display: 'flex' }}>
+            <Tabs size="small" onChange={callback}>
+              <TabPane tab="Open Orders" key="orders" />
+              <TabPane tab="Recent Trade History" key="fills" />
+              <TabPane tab="Balances" key="balances" />
+              {/*market && market.supportsSrmFeeDiscounts ? (
           <TabPane tab="Fee discounts" key="fees">
             <FeesTable />
           </TabPane>
         ) : null*/}
-      </Tabs>
+            </Tabs>
+          </div>
+        </div>
+      </div>
+      <div style={{ backgroundColor: '#ffffff', marginTop: '30px' }}>
+        <FillsTable />
+        <BalancesTab />
+        <OpenOrdersTab />
+      </div>
     </FloatingElement>
   );
 }

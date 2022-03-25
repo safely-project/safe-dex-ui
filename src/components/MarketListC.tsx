@@ -6,7 +6,7 @@ import { getDecimalCount } from '../utils/utils';
 import FloatingElement from './layout/FloatingElement';
 import { BonfidaTrade } from '../utils/types';
 import { nanoid } from 'nanoid';
-import { DeleteOutlined, InfoCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { DeleteOutlined, InfoCircleOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { notify } from '../utils/notifications';
 import LinkAddress from './LinkAddress';
 import CustomMarketDialog from './CustomMarketDialog';
@@ -96,14 +96,37 @@ export default function WrapperMarket() {
   return (
     <>
       <FloatingElement style={{ flex: 1 }}>
-      <div style={{ backgroundColor: COLORS.secondary, borderTopLeftRadius: '6px', borderTopRightRadius: '6px', padding: '10px' }}>
+        <div style={{ backgroundColor: COLORS.secondary, borderTopLeftRadius: '6px', borderTopRightRadius: '6px', padding: '10px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Title style={{
               paddingLeft: '10px',
               textTransform: 'uppercase',
               letterSpacing: '1px',
               opacity: '0.8'
             }}>Markets</Title>
+            <div style={{ display: 'flex' }}>
+              {market ? (
+                <Col>
+                  <Popover
+                    content={<LinkAddress address={market.publicKey.toBase58()} />}
+                    placement="bottomRight"
+                    title="Market address"
+                    trigger="click"
+                  >
+                    <InfoCircleOutlined style={{ color: '#2abdd2' }} />
+                  </Popover>
+                </Col>
+              ) : null}
+              <Col>
+                <PlusOutlined
+                  style={{ color: '#2abdd2' }}
+                  onClick={() => setAddMarketVisible(true)}
+                />
+              </Col>
+            </div>
           </div>
+
+        </div>
         <CustomMarketDialog
           visible={addMarketVisible}
           onClose={() => setAddMarketVisible(false)}
@@ -115,26 +138,6 @@ export default function WrapperMarket() {
           gutter={16}
         >
 
-          <div style={{ display: 'flex' }}>
-            {market ? (
-              <Col>
-                <Popover
-                  content={<LinkAddress address={market.publicKey.toBase58()} />}
-                  placement="bottomRight"
-                  title="Market address"
-                  trigger="click"
-                >
-                  <InfoCircleOutlined style={{ color: '#2abdd2' }} />
-                </Popover>
-              </Col>
-            ) : null}
-            <Col>
-              <PlusCircleOutlined
-                style={{ color: '#2abdd2' }}
-                onClick={() => setAddMarketVisible(true)}
-              />
-            </Col>
-          </div>
         </Row>
         <MarketListCustom
           markets={markets}
@@ -175,8 +178,8 @@ function MarketListCustom({
         market?.address && proposedMarket.address.equals(market.address),
     )
     ?.address?.toBase58();
-  console.log("onSelect={onSetMarketAddress} ", onSetMarketAddress)
-  console.log("value={selectedMarket} ", selectedMarket)
+  //console.log("onSelect={onSetMarketAddress} ", onSetMarketAddress)
+  //console.log("value={selectedMarket} ", selectedMarket)
   return (
     <>
       <>

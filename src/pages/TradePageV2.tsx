@@ -42,7 +42,7 @@ const Wrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 16px 16px;
+  padding: 7px 7px;
   .borderNone .ant-select-selector {
     border: none !important;
   }
@@ -332,7 +332,7 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       </Col>
       <Col flex="auto" style={{ height: '50vh' }}>
         <Row style={{ height: '100%' }}>
-          <FloatingElement style={{ flex: 1, paddingTop: 10 }}>
+          <FloatingElement style={{ flex: 1, marginBottom:'47px' }}>
             <TVChartContainer />
           </FloatingElement>
         </Row>

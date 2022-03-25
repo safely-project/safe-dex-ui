@@ -41,7 +41,7 @@ const Line = styled.div`
 
 const Price = styled.div`
   position: absolute;
-  right: 5px;
+  right: 15px;
   color: white;
 `;
 
@@ -104,7 +104,7 @@ export default function Orderbook({ smallScreen, depth = 7, onPrice, onSize }) {
             opacity: '0.8',
           }}
         >
-          Recent market trades
+          Orderbook
         </Title>
       </div>
       <SizeTitle>
@@ -172,8 +172,12 @@ const OrderbookRow = React.memo(
         : price;
 
     return (
-      <Row ref={element} style={{ marginBottom: 1 }} onClick={onSizeClick}>
-        <Col span={12} style={{ textAlign: 'left' }}>
+      <Row
+        ref={element}
+        style={{ marginBottom: 1, fontFamily: 'monospace' }}
+        onClick={onSizeClick}
+      >
+        <Col span={12} style={{ textAlign: 'left', paddingLeft: '15px' }}>
           {formattedSize}
         </Col>
         <Col span={12} style={{ textAlign: 'right' }}>
@@ -181,11 +185,20 @@ const OrderbookRow = React.memo(
             data-width={sizePercent + '%'}
             data-bgcolor={
               side === 'buy'
-                ? 'rgba(65, 199, 122, 0.6)'
-                : 'rgba(242, 60, 105, 0.6)'
+                ? 'rgba(65, 199, 122, 0.2)'
+                : 'rgba(242, 60, 105, 0.2)'
             }
           />
-          <Price onClick={onPriceClick}>{formattedPrice}</Price>
+          <Price
+            style={
+              side === 'buy'
+                ? { color: 'rgba(65, 199, 122, 1)' }
+                : { color: 'rgba(242, 60, 105, 1)' }
+            }
+            onClick={onPriceClick}
+          >
+            {formattedPrice}
+          </Price>
         </Col>
       </Row>
     );
