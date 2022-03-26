@@ -39,3 +39,43 @@ th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-
 .ant-table-tbody > tr > td {
   border-bottom: 8px solid #0f1722!important;
 }
+
+// horizontal menu
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu {
+  margin-top: -1px;
+  margin-bottom: 0;
+  padding: 0 7px;
+  font-weight: 500;
+  color:rgb(180, 180, 180);
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected {
+  color: #2abdd2;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected::after {
+  border-bottom: none;
+}
+
+.ant-menu-horizontal > .ant-menu-item::after, .ant-menu-horizontal > .ant-menu-submenu::after {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    left: 20px;
+    border-bottom: none;
+    transition: border-color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    content: '';
+}
+
+.ant-layout-footer {
+  padding: 24px 50px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  background: none;
+}
+
+.ant-table-wrapper {
+  background-color: #101823;
+  clear: both;
+  max-width: 100%;
+}

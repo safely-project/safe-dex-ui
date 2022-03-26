@@ -27,7 +27,7 @@ export const CustomFooter = () => {
         height: '55px',
         paddingBottom: 10,
         paddingTop: 10,
-        background: '#11161d',
+       // background: '#11161d',
       }}
     >
       {refCode && allowRefLink && (

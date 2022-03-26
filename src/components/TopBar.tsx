@@ -19,8 +19,9 @@ import WalletConnect from './WalletConnect';
 import AppSearch from './AppSearch';
 import { getTradePageUrl } from '../utils/markets';
 
+// here is navbar bg
 const Wrapper = styled.div`
-  background-color: #18222f;
+ 
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -34,7 +35,7 @@ const LogoWrapper = styled.div`
   font-weight: bold;
   cursor: pointer;
   img {
-    height: 30px;
+    height: 40px;
     margin-right: 8px;
   }
 `;
@@ -161,8 +162,8 @@ export default function TopBar() {
           <Menu.Item key={tradePageUrl} style={{ margin: '0 10px 0 20px' }}>
             TRADE
           </Menu.Item>
-          {!searchFocussed && (
-            <Menu.Item key="/swap" style={{ margin: '0 10px' }}>
+          {/*!searchFocussed && (
+            <Menu.Item key="/swap" style={{ margin: '0 10px',color:'rgb(180, 180, 180)' }}>
               <a
                 href={EXTERNAL_LINKS['/swap']}
                 target="_blank"
@@ -171,7 +172,7 @@ export default function TopBar() {
                 SWAP
               </a>
             </Menu.Item>
-          )}
+          )*/}
           {connected && (!searchFocussed || location.pathname === '/balances') && (
             <Menu.Item key="/balances" style={{ margin: '0 10px' }}>
               BALANCES
@@ -242,7 +243,7 @@ export default function TopBar() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Solana block explorer
+                  Safecoin block explorer
                 </a>
               </Menu.Item>
               <Menu.Item key="/srm-faq">
@@ -251,7 +252,7 @@ export default function TopBar() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  SRM FAQ
+                  Safeswap FAQ
                 </a>
               </Menu.Item>
             </Menu.SubMenu>

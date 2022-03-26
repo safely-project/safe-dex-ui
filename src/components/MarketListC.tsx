@@ -11,6 +11,7 @@ import { notify } from '../utils/notifications';
 import LinkAddress from './LinkAddress';
 import CustomMarketDialog from './CustomMarketDialog';
 import { COLORS } from './colors';
+import Jazzicon from 'react-jazzicon'
 
 const Title = styled.div`
   color: rgba(255, 255, 255, 1);
@@ -338,12 +339,27 @@ function MarketListCustom({
                 name={name}
                 style={{
                   textAlign: "left",
+                  height:"auto",
                   //padding: '10px',
                   // @ts-ignore
                   backgroundColor: i % 2 === 0 ? 'rgb(39, 44, 61)' : null,
                 }}
               >
-                {name} {deprecated ? ' (Deprecated)' : null}
+                <div style={{ display: 'flex' }}>
+                  <div>
+                    <Jazzicon diameter={17} seed={Math.round(Math.random() * 10000000)} />
+                  </div>
+                  <div>
+                    <div>
+                      {name} {deprecated ? ' (Deprecated)' : null}
+                    </div>
+                    <div>
+                      Vol: 13
+                    </div>
+                  </div>
+
+                </div>
+
               </Button>
             ))}
         </div>
