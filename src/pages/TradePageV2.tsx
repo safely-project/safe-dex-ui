@@ -332,7 +332,7 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       </Col>
       <Col flex="auto" style={{ height: '50vh' }}>
         <Row style={{ height: '100%' }}>
-          <FloatingElement style={{ flex: 1, marginBottom:'47px' }}>
+          <FloatingElement style={{ flex: 1, marginBottom: '47px' }}>
             <TVChartContainer />
           </FloatingElement>
         </Row>

@@ -2,3 +2,40 @@
 @import '~antd/dist/antd.dark.less';
 @primary-color: #2abdd2;
 @popover-background: #1a2029;
+
+.ant-tabs-small > .ant-tabs-nav .ant-tabs-tab {
+  padding: inherit;
+  font-size: 14px;
+}
+.ant-tabs-top > .ant-tabs-nav::before, .ant-tabs-top > div > .ant-tabs-nav::before {
+  display:none;
+}
+.ant-tabs-top > .ant-tabs-nav, .ant-tabs-bottom > .ant-tabs-nav, .ant-tabs-top > div > .ant-tabs-nav, .ant-tabs-bottom > div > .ant-tabs-nav {
+  margin: inherit;
+}
+.ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar, .ant-tabs-top > div > .ant-tabs-nav .ant-tabs-ink-bar {
+  bottom: 0;
+  display: none;
+}
+.ant-table-thead > tr >th{
+  color: rgb(187, 187, 187);
+  background: #0f1722!important;
+}
+
+.ant-table-tbody > tr >th{
+  color: white;
+  background: #0f1722!important;
+  }
+.ant-table-empty .ant-table-tbody > tr.ant-table-placeholder {
+  color: rgba(255, 255, 255, 0.3);
+  background-color: #0f1722;
+  &::hover {
+    background-color: #0f1722;
+  }
+}
+th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-small tfoot > tr > th, .ant-table.ant-table-small tfoot > tr > td {
+  padding: 0px 8px;
+}
+.ant-table-tbody > tr > td {
+  border-bottom: 8px solid #0f1722!important;
+}

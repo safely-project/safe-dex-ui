@@ -154,6 +154,7 @@ export default function TopBar() {
             backgroundColor: 'transparent',
             display: 'flex',
             alignItems: 'flex-end',
+            placeContent: 'center',
             flex: 1,
           }}
         >
@@ -292,6 +293,7 @@ export default function TopBar() {
                 <InfoCircleOutlined style={{ color: '#2abdd2' }} />
               </Popover>
             </Col>
+            {/* 
             <Col>
               <Select
                 onSelect={setEndpoint}
@@ -305,6 +307,7 @@ export default function TopBar() {
                 ))}
               </Select>
             </Col>
+            */}
           </Row>
         </div>
         {connected && (

@@ -1,5 +1,5 @@
-import {Button, Input, Radio, Slider, Switch} from 'antd';
-import React, {useEffect, useState} from 'react';
+import { Button, Input, Radio, Slider, Switch } from 'antd';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   useFeeDiscountKeys,
@@ -12,14 +12,14 @@ import {
   useSelectedQuoteCurrencyAccount,
   useSelectedQuoteCurrencyBalances,
 } from '../utils/markets';
-import {useWallet} from '../utils/wallet';
-import {notify} from '../utils/notifications';
-import {floorToDecimal, getDecimalCount, roundToDecimal,} from '../utils/utils';
-import {useSendConnection} from '../utils/connection';
+import { useWallet } from '../utils/wallet';
+import { notify } from '../utils/notifications';
+import { floorToDecimal, getDecimalCount, roundToDecimal, } from '../utils/utils';
+import { useSendConnection } from '../utils/connection';
 import FloatingElement from './layout/FloatingElement';
-import {getUnixTs, placeOrder} from '../utils/send';
-import {SwitchChangeEventHandler} from 'antd/es/switch';
-import {refreshCache} from '../utils/fetch-loop';
+import { getUnixTs, placeOrder } from '../utils/send';
+import { SwitchChangeEventHandler } from 'antd/es/switch';
+import { refreshCache } from '../utils/fetch-loop';
 import tuple from 'immutable-tuple';
 
 const SellButton = styled(Button)`
@@ -33,7 +33,14 @@ const BuyButton = styled(Button)`
   background: #02bf76;
   border-color: #02bf76;
 `;
-
+const IsCoOverlay = styled.div`
+z-index:50;
+position: absolute;
+top: 15%;
+left: 25%;
+font-size :x-large;
+width:fit-content;
+`;
 const sliderMarks = {
   0: '0%',
   25: '25%',
@@ -115,8 +122,7 @@ export default function TradeForm({
         await market?.findBestFeeDiscountKey(sendConnection, publicKey);
         const endTime = getUnixTs();
         console.log(
-          `Finished refreshing accounts for ${market.address} after ${
-            endTime - startTime
+          `Finished refreshing accounts for ${market.address} after ${endTime - startTime
           }`,
         );
       } catch (e) {
@@ -272,119 +278,132 @@ export default function TradeForm({
     }
   }
 
+  console.log("wallet connected ? ", connected)
   return (
-    <FloatingElement
-      style={{ display: 'flex', flexDirection: 'column', ...style }}
-    >
-      <div style={{ flex: 1 }}>
-        <Radio.Group
-          onChange={(e) => setSide(e.target.value)}
-          value={side}
-          buttonStyle="solid"
-          style={{
-            marginBottom: 8,
-            width: '100%',
-          }}
-        >
-          <Radio.Button
-            value="buy"
-            style={{
-              width: '50%',
-              textAlign: 'center',
-              background: side === 'buy' ? '#02bf76' : '',
-              borderColor: side === 'buy' ? '#02bf76' : '',
-            }}
-          >
-            BUY
-          </Radio.Button>
-          <Radio.Button
-            value="sell"
-            style={{
-              width: '50%',
-              textAlign: 'center',
-              background: side === 'sell' ? '#F23B69' : '',
-              borderColor: side === 'sell' ? '#F23B69' : '',
-            }}
-          >
-            SELL
-          </Radio.Button>
-        </Radio.Group>
-        <Input
-          style={{ textAlign: 'right', paddingBottom: 8 }}
-          addonBefore={<div style={{ width: '30px' }}>Price</div>}
-          suffix={
-            <span style={{ fontSize: 10, opacity: 0.5 }}>{quoteCurrency}</span>
-          }
-          value={price}
-          type="number"
-          step={market?.tickSize || 1}
-          onChange={(e) => setPrice(parseFloat(e.target.value))}
-        />
-        <Input.Group compact style={{ paddingBottom: 8 }}>
-          <Input
-            style={{ width: 'calc(50% + 30px)', textAlign: 'right' }}
-            addonBefore={<div style={{ width: '30px' }}>Size</div>}
-            suffix={
-              <span style={{ fontSize: 10, opacity: 0.5 }}>{baseCurrency}</span>
-            }
-            value={baseSize}
-            type="number"
-            step={market?.minOrderSize || 1}
-            onChange={(e) => onSetBaseSize(parseFloat(e.target.value))}
-          />
-          <Input
-            style={{ width: 'calc(50% - 30px)', textAlign: 'right' }}
-            suffix={
-              <span style={{ fontSize: 10, opacity: 0.5 }}>
-                {quoteCurrency}
-              </span>
-            }
-            value={quoteSize}
-            type="number"
-            step={market?.minOrderSize || 1}
-            onChange={(e) => onSetQuoteSize(parseFloat(e.target.value))}
-          />
-        </Input.Group>
-        <Slider
-          value={sizeFraction}
-          tipFormatter={(value) => `${value}%`}
-          marks={sliderMarks}
-          onChange={onSliderChange}
-        />
-        <div style={{ paddingTop: 18 }}>
-          {'POST '}
-          <Switch
-            checked={postOnly}
-            onChange={postOnChange}
-            style={{ marginRight: 40 }}
-          />
-          {'IOC '}
-          <Switch checked={ioc} onChange={iocOnChange} />
+    <>
+      
+      <FloatingElement
+        style={!connected ?
+          {  display: 'flex', flexDirection: 'column', ...style } :
+          { display: 'flex', flexDirection: 'column', ...style }}
+      >
+        {!connected ?    <IsCoOverlay>
+          Connect your wallet
+          </IsCoOverlay> : null}
+     
+        <div style={!connected ? {pointerEvents: 'none', filter: 'blur(3px)', padding:'8px'} : {padding:'8px'}}>
+          {/*<div style={{position:'absolute', width:'100%', height:'100%', backgroundColor:'red', opacity:'0.5'}}></div>*/}
+          <div style={{ flex: 1 }}>
+            <Radio.Group
+              onChange={(e) => setSide(e.target.value)}
+              value={side}
+              buttonStyle="solid"
+              style={{
+                marginBottom: 8,
+                width: '100%',
+              }}
+            >
+              <Radio.Button
+                value="buy"
+                style={{
+                  width: '50%',
+                  textAlign: 'center',
+                  background: side === 'buy' ? '#02bf76' : '',
+                  borderColor: side === 'buy' ? '#02bf76' : '',
+                }}
+              >
+                BUY
+              </Radio.Button>
+              <Radio.Button
+                value="sell"
+                style={{
+                  width: '50%',
+                  textAlign: 'center',
+                  background: side === 'sell' ? '#F23B69' : '',
+                  borderColor: side === 'sell' ? '#F23B69' : '',
+                }}
+              >
+                SELL
+              </Radio.Button>
+            </Radio.Group>
+            <Input
+              style={{ textAlign: 'right', paddingBottom: 8 }}
+              addonBefore={<div style={{ width: '30px' }}>Price</div>}
+              suffix={
+                <span style={{ fontSize: 10, opacity: 0.5 }}>{quoteCurrency}</span>
+              }
+              value={price}
+              type="number"
+              step={market?.tickSize || 1}
+              onChange={(e) => setPrice(parseFloat(e.target.value))}
+            />
+            <Input.Group compact style={{ paddingBottom: 8 }}>
+              <Input
+                style={{ width: 'calc(50% + 30px)', textAlign: 'right' }}
+                addonBefore={<div style={{ width: '30px' }}>Size</div>}
+                suffix={
+                  <span style={{ fontSize: 10, opacity: 0.5 }}>{baseCurrency}</span>
+                }
+                value={baseSize}
+                type="number"
+                step={market?.minOrderSize || 1}
+                onChange={(e) => onSetBaseSize(parseFloat(e.target.value))}
+              />
+              <Input
+                style={{ width: 'calc(50% - 30px)', textAlign: 'right' }}
+                suffix={
+                  <span style={{ fontSize: 10, opacity: 0.5 }}>
+                    {quoteCurrency}
+                  </span>
+                }
+                value={quoteSize}
+                type="number"
+                step={market?.minOrderSize || 1}
+                onChange={(e) => onSetQuoteSize(parseFloat(e.target.value))}
+              />
+            </Input.Group>
+            <Slider
+              value={sizeFraction}
+              tipFormatter={(value) => `${value}%`}
+              marks={sliderMarks}
+              onChange={onSliderChange}
+            />
+            <div style={{ paddingTop: 18 }}>
+              {'POST '}
+              <Switch
+                checked={postOnly}
+                onChange={postOnChange}
+                style={{ marginRight: 40 }}
+              />
+              {'IOC '}
+              <Switch checked={ioc} onChange={iocOnChange} />
+            </div>
+          </div>
+          {side === 'buy' ? (
+            <BuyButton
+              disabled={!price || !baseSize}
+              onClick={onSubmit}
+              block
+              type="primary"
+              size="large"
+              loading={submitting}
+            >
+              Buy {baseCurrency}
+            </BuyButton>
+          ) : (
+            <SellButton
+              disabled={!price || !baseSize}
+              onClick={onSubmit}
+              block
+              type="primary"
+              size="large"
+              loading={submitting}
+            >
+              Sell {baseCurrency}
+            </SellButton>
+          )}
         </div>
-      </div>
-      {side === 'buy' ? (
-        <BuyButton
-          disabled={!price || !baseSize}
-          onClick={onSubmit}
-          block
-          type="primary"
-          size="large"
-          loading={submitting}
-        >
-          Buy {baseCurrency}
-        </BuyButton>
-      ) : (
-        <SellButton
-          disabled={!price || !baseSize}
-          onClick={onSubmit}
-          block
-          type="primary"
-          size="large"
-          loading={submitting}
-        >
-          Sell {baseCurrency}
-        </SellButton>
-      )}
-    </FloatingElement>
+      </FloatingElement>
+    </>
   );
 }

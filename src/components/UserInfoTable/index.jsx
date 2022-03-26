@@ -45,10 +45,18 @@ export default function Index() {
             My Orders
           </Title>
           <div style={{ display: 'flex' }}>
-            <Tabs size="small" onChange={callback}>
-              <TabPane tab="Open Orders" key="orders" />
-              <TabPane tab="Recent Trade History" key="fills" />
-              <TabPane tab="Balances" key="balances" />
+            <Tabs animated={false} size="small" onChange={callback}>
+              <TabPane
+                tab="Open Orders"
+                key="orders"
+                style={{ outline: 'none' }}
+              />
+              <TabPane
+                tab="Recent Trade History"
+                key="fills"
+                style={{ outline: 'none' }}
+              />
+              {/*<TabPane tab="Balances" key="balances" style={{outline: 'none'}} />*/}
               {/*market && market.supportsSrmFeeDiscounts ? (
           <TabPane tab="Fee discounts" key="fees">
             <FeesTable />
@@ -58,10 +66,10 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div style={{ backgroundColor: '#ffffff', marginTop: '30px' }}>
-        <FillsTable />
-        <BalancesTab />
-        <OpenOrdersTab />
+      <div style={{ backgroundColor: COLORS.main }}>
+        {activekey === 'orders' ? <OpenOrdersTab /> : <FillsTable />}
+
+        {/*<BalancesTab />*/}
       </div>
     </FloatingElement>
   );
