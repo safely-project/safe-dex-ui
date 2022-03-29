@@ -11,7 +11,7 @@ import { notify } from '../utils/notifications';
 import LinkAddress from './LinkAddress';
 import CustomMarketDialog from './CustomMarketDialog';
 import { COLORS } from './colors';
-import Jazzicon from 'react-jazzicon'
+import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 
 const Title = styled.div`
   color: rgba(255, 255, 255, 1);
@@ -94,62 +94,64 @@ export default function WrapperMarket() {
     setCustomMarkets(newCustomMarkets);
   };
 
-  return (
-    <>
-      <FloatingElement style={{ flex: 1 }}>
-        <div style={{ backgroundColor: COLORS.secondary, borderTopLeftRadius: '6px', borderTopRightRadius: '6px', padding: '10px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Title style={{
-              paddingLeft: '10px',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              opacity: '0.8'
-            }}>Markets</Title>
-            <div style={{ display: 'flex' }}>
-              {market ? (
-                <Col>
-                  <Popover
-                    content={<LinkAddress address={market.publicKey.toBase58()} />}
-                    placement="bottomRight"
-                    title="Market address"
-                    trigger="click"
-                  >
-                    <InfoCircleOutlined style={{ color: '#2abdd2' }} />
-                  </Popover>
-                </Col>
-              ) : null}
+
+
+return (
+  <>
+    <FloatingElement style={{ flex: 1 }}>
+      <div style={{ backgroundColor: COLORS.secondary, borderTopLeftRadius: '6px', borderTopRightRadius: '6px', padding: '10px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Title style={{
+            paddingLeft: '10px',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            opacity: '0.8'
+          }}>Markets</Title>
+          <div style={{ display: 'flex' }}>
+            {market ? (
               <Col>
-                <PlusOutlined
-                  style={{ color: '#2abdd2' }}
-                  onClick={() => setAddMarketVisible(true)}
-                />
+                <Popover
+                  content={<LinkAddress address={market.publicKey.toBase58()} />}
+                  placement="bottomRight"
+                  title="Market address"
+                  trigger="click"
+                >
+                  <InfoCircleOutlined style={{ color: '#2abdd2' }} />
+                </Popover>
               </Col>
-            </div>
+            ) : null}
+            <Col>
+              <PlusOutlined
+                style={{ color: '#2abdd2' }}
+                onClick={() => setAddMarketVisible(true)}
+              />
+            </Col>
           </div>
-
         </div>
-        <CustomMarketDialog
-          visible={addMarketVisible}
-          onClose={() => setAddMarketVisible(false)}
-          onAddCustomMarket={onAddCustomMarket}
-        />
-        <Row
-          align="stretch"
-          style={{ paddingLeft: 5, paddingRight: 5, justifyContent: 'space-between' }}
-          gutter={16}
-        >
 
-        </Row>
-        <MarketListCustom
-          markets={markets}
-          setHandleDeprecated={setHandleDeprecated}
-          placeholder={'Select market'}
-          customMarkets={customMarkets}
-          onDeleteCustomMarket={onDeleteCustomMarket}
-        />
-      </FloatingElement>
-    </>
-  );
+      </div>
+      <CustomMarketDialog
+        visible={addMarketVisible}
+        onClose={() => setAddMarketVisible(false)}
+        onAddCustomMarket={onAddCustomMarket}
+      />
+      <Row
+        align="stretch"
+        style={{ paddingLeft: 5, paddingRight: 5, justifyContent: 'space-between' }}
+        gutter={16}
+      >
+
+      </Row>
+      <MarketListCustom
+        markets={markets}
+        setHandleDeprecated={setHandleDeprecated}
+        placeholder={'Select market'}
+        customMarkets={customMarkets}
+        onDeleteCustomMarket={onDeleteCustomMarket}
+      />
+    </FloatingElement>
+  </>
+);
 }
 
 function MarketListCustom({
@@ -170,9 +172,38 @@ function MarketListCustom({
     setMarketAddress(marketAddress);
   }
 
+  const getSymbols = (pair) => {
+    const base = pair.split('/')[0];
+    const quote = pair.split('/')[1];
+    const arrpair = [base, quote]
+
+    return arrpair;
+  }
+
   const extractBase = (a) => a.split('/')[0];
   const extractQuote = (a) => a.split('/')[1];
 
+  function randomPriceChange() {
+    var Price = Math.floor(Math.random() * 30)
+    //console.log('PlusorMinus', Price)
+    return (
+      <>
+        <div>{Price}</div>
+      </>
+    )
+  }
+
+  function randomPercentChange() {
+    var plusOrMinus = Math.ceil(Math.random() * 2) * (Math.round(Math.random()) ? 8 : -9)
+    //console.log('PlusorMinus', plusOrMinus)
+    return (
+      <>
+        <div style={plusOrMinus > 0 ? {color:'green'} : {color:'red'}}>{plusOrMinus} %</div>
+      </>
+    )
+  }
+
+  //console.log("extractBase(a): ", extractBase)
   const selectedMarket = getMarketInfos(customMarkets)
     .find(
       (proposedMarket) =>
@@ -339,25 +370,49 @@ function MarketListCustom({
                 name={name}
                 style={{
                   textAlign: "left",
-                  height:"auto",
+                  height: "auto",
+                  color: "white"
                   //padding: '10px',
                   // @ts-ignore
-                  backgroundColor: i % 2 === 0 ? 'rgb(39, 44, 61)' : null,
+                  // backgroundColor: i % 2 === 0 ? 'rgb(39, 44, 61)' : null,
                 }}
               >
-                <div style={{ display: 'flex' }}>
-                  <div>
-                    <Jazzicon diameter={17} seed={Math.round(Math.random() * 10000000)} />
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex' }}>
+                    <div style={{ marginTop: "auto", marginBottom: "auto" }}>
+                      <Jazzicon diameter={25} seed={jsNumberForAddress(address.toBase58())} />
+                    </div>
+                    <div style={{ marginLeft: "18px" }}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {getSymbols(name)[0]}
+                        <div style={{
+                          fontSize: 'small',
+                          marginLeft: '8px',
+                          marginTop: '4px',
+                          marginBottom: '4px',
+                          backgroundColor: COLORS.main,
+                          paddingLeft: '4px',
+                          paddingRight: '4px'
+                        }}>
+                          {getSymbols(name)[1]}</div> {deprecated ? ' (Deprecated)' : null}
+                      </div>
+                      <div style={{display:'flex'}}>
+                        <div style={{color:'grey', marginRight:'8px'}}>Vol:</div> 13
+                      </div>
+                    </div>
                   </div>
-                  <div>
+                  <div style={{
+                    marginLeft: "8px", textAlign: "right", fontFamily: 'monospace', fontSize: 'small', display: 'flex',
+                    flexFlow: 'column',
+                    placeContent: 'space-around',
+                  }}>
                     <div>
-                      {name} {deprecated ? ' (Deprecated)' : null}
+                      {randomPriceChange()}
                     </div>
                     <div>
-                      Vol: 13
+                      {randomPercentChange()}
                     </div>
                   </div>
-
                 </div>
 
               </Button>

@@ -1,5 +1,19 @@
 [
   {
+    "address": "AX4PWppDhNvetKjTw2iVJTShG27waF97YrLfPUcvMLSJ",
+    "name": "BOZO/USDS",
+    "programId": "SsdxNC41napUG4AeUrU9ciNGNEMdxrGR9tLFE9i2WNa",
+    "owner": "CmEtCf1pm6qgXsa73Kxr2do2ikYyAC9d2HJ7RQf5WE2m",
+    "deprecated": false
+  },
+  {
+    "address": "Qkx5dGNH1Eobf2BBgijt61nxNJUTWhJmRLxvYSEyrtX",
+    "name": "BOZO/SAFE",
+    "programId": "SsdxNC41napUG4AeUrU9ciNGNEMdxrGR9tLFE9i2WNa",
+    "owner": "CmEtCf1pm6qgXsa73Kxr2do2ikYyAC9d2HJ7RQf5WE2m",
+    "deprecated": false
+  },
+  {
     "address": "3tSQ2hJGAtAMMpprPoY2njrAfjzY1pXAH6UUZsXrwZ51",
     "name": "SAFE/USDS",
     "programId": "SsdxNC41napUG4AeUrU9ciNGNEMdxrGR9tLFE9i2WNa",

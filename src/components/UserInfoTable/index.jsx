@@ -19,7 +19,7 @@ export default function Index() {
   const [activekey, setActiveKey] = useState('orders');
 
   function callback(key) {
-    console.log('KEY ', key);
+    //console.log('KEY ', key);
     setActiveKey(key);
   }
 

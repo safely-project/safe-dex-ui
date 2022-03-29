@@ -278,7 +278,7 @@ export default function TradeForm({
     }
   }
 
-  console.log("wallet connected ? ", connected)
+ // console.log("wallet connected ? ", connected)
   return (
     <>
       

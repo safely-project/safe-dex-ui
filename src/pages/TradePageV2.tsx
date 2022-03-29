@@ -216,8 +216,6 @@ function MarketSelector({
         market?.address && proposedMarket.address.equals(market.address),
     )
     ?.address?.toBase58();
-  console.log("onSelect={onSetMarketAddress} ", onSetMarketAddress)
-  console.log("value={selectedMarket} ", selectedMarket)
   return (
     <Select
       //defaultOpen={true}
