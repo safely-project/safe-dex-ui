@@ -278,20 +278,20 @@ export default function TradeForm({
     }
   }
 
- // console.log("wallet connected ? ", connected)
+  // console.log("wallet connected ? ", connected)
   return (
     <>
-      
+
       <FloatingElement
         style={!connected ?
-          {  display: 'flex', flexDirection: 'column', ...style } :
+          { display: 'flex', flexDirection: 'column', ...style } :
           { display: 'flex', flexDirection: 'column', ...style }}
       >
-        {!connected ?    <IsCoOverlay>
+        {!connected ? <IsCoOverlay>
           Connect your wallet
-          </IsCoOverlay> : null}
-     
-        <div style={!connected ? {pointerEvents: 'none', filter: 'blur(3px)', padding:'8px'} : {padding:'8px'}}>
+        </IsCoOverlay> : null}
+
+        <div style={!connected ? { pointerEvents: 'none', filter: 'blur(3px)', padding: '8px' } : { padding: '8px' }}>
           {/*<div style={{position:'absolute', width:'100%', height:'100%', backgroundColor:'red', opacity:'0.5'}}></div>*/}
           <div style={{ flex: 1 }}>
             <Radio.Group
@@ -299,7 +299,7 @@ export default function TradeForm({
               value={side}
               buttonStyle="solid"
               style={{
-                marginBottom: 8,
+                marginBottom: 15,
                 width: '100%',
               }}
             >
@@ -326,8 +326,14 @@ export default function TradeForm({
                 SELL
               </Radio.Button>
             </Radio.Group>
+            <div style={{paddingLeft:15, paddingRight:15}}>
+              <div style={{display:'flex'}}>
+              <div>Balance :</div>
+              <div>{quoteCurrency}</div>
+              </div>
             <Input
-              style={{ textAlign: 'right', paddingBottom: 8 }}
+              size='large'
+              style={{ textAlign: 'right', paddingBottom: 8,  fontFamily:'monospace' }}
               addonBefore={<div style={{ width: '30px' }}>Price</div>}
               suffix={
                 <span style={{ fontSize: 10, opacity: 0.5 }}>{quoteCurrency}</span>
@@ -337,9 +343,10 @@ export default function TradeForm({
               step={market?.tickSize || 1}
               onChange={(e) => setPrice(parseFloat(e.target.value))}
             />
-            <Input.Group compact style={{ paddingBottom: 8 }}>
+            
               <Input
-                style={{ width: 'calc(50% + 30px)', textAlign: 'right' }}
+                size='large'
+                style={{ /*width: 'calc(50% + 30px)',*/ paddingBottom: 8, textAlign: 'right', fontFamily:'monospace' }}
                 addonBefore={<div style={{ width: '30px' }}>Size</div>}
                 suffix={
                   <span style={{ fontSize: 10, opacity: 0.5 }}>{baseCurrency}</span>
@@ -349,8 +356,31 @@ export default function TradeForm({
                 step={market?.minOrderSize || 1}
                 onChange={(e) => onSetBaseSize(parseFloat(e.target.value))}
               />
-              <Input
-                style={{ width: 'calc(50% - 30px)', textAlign: 'right' }}
+
+              </div>
+            <div style={{paddingTop:15, paddingLeft:10, paddingRight:10}}>
+            <Slider
+              value={sizeFraction}
+              tipFormatter={(value) => `${value}%`}
+              marks={sliderMarks}
+              onChange={onSliderChange}
+            />
+            </div>
+            <div style={{ paddingTop: 18, paddingBottom:18, textAlign:'center' }}>
+              {'POST '}
+              <Switch
+                checked={postOnly}
+                onChange={postOnChange}
+                style={{ marginRight: 40 }}
+              />
+              {'IOC '}
+              <Switch checked={ioc} onChange={iocOnChange} />
+            </div>
+            <Input
+            bordered={false}
+                size='large'
+                style={{ /*width: 'calc(50% - 30px)',*/ textAlign: 'right', fontFamily:'monospace', border:'0px' }}
+                addonBefore={<div style={{ width: '30px' }}>Total</div>}
                 suffix={
                   <span style={{ fontSize: 10, opacity: 0.5 }}>
                     {quoteCurrency}
@@ -361,23 +391,6 @@ export default function TradeForm({
                 step={market?.minOrderSize || 1}
                 onChange={(e) => onSetQuoteSize(parseFloat(e.target.value))}
               />
-            </Input.Group>
-            <Slider
-              value={sizeFraction}
-              tipFormatter={(value) => `${value}%`}
-              marks={sliderMarks}
-              onChange={onSliderChange}
-            />
-            <div style={{ paddingTop: 18 }}>
-              {'POST '}
-              <Switch
-                checked={postOnly}
-                onChange={postOnChange}
-                style={{ marginRight: 40 }}
-              />
-              {'IOC '}
-              <Switch checked={ioc} onChange={iocOnChange} />
-            </div>
           </div>
           {side === 'buy' ? (
             <BuyButton

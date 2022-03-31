@@ -12,7 +12,7 @@ import { OrderWithMarketAndMarketName } from '../../utils/types';
 
 const CancelButton = styled(Button)`
   color: #f23b69;
-  border: 1px solid #f23b69;
+  border: 0px solid #f23b69;
 `;
 
 export default function OpenOrderTable({

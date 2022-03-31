@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import { LinkOutlined } from '@ant-design/icons';
-
+import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 export default function LinkAddress({
   title,
   address,
@@ -16,15 +16,21 @@ export default function LinkAddress({
       {title && <p style={{ color: 'white' }}>{title}</p>}
       <Button
         type="link"
-        icon={<LinkOutlined />}
+
         href={
           'https://explorer.safecoin.org/address/' + address + '?cluster=devnet'
         }
         target="_blank"
         rel="noopener noreferrer"
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', color: "white", paddingTop: 'inherit', lineHeight: 'inherit' }}
       >
-        {shorten ? `${address.slice(0, 4)}...${address.slice(-4)}` : address}
+        <div style={{
+          position: 'absolute',
+          marginLeft: '-27px'
+        }}>
+
+          <Jazzicon diameter={25} seed={jsNumberForAddress(address)} />
+        </div>{shorten ? `${address.slice(0, 4)}...${address.slice(-4)}` : address}
       </Button>
     </div>
   );
