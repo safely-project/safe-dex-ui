@@ -91,9 +91,32 @@ th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-
   /* border-radius: 2px; */
   transition: all 0.3s;
 }
+.ant-input-affix-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  min-width: 0;
+  padding: 4px 11px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  line-height: 1.5715;
+  background-color: #0a1018;
+  background-image: none;
+  border: 1px solid #000000;
+  border-radius: 2px;
+  transition: all 0.3s;
+  display: inline-flex;
+}
 
+.ant-input-affix-wrapper-borderless, .ant-input-affix-wrapper-borderless:hover, .ant-input-affix-wrapper-borderless:focus, .ant-input-affix-wrapper-borderless-focused, .ant-input-affix-wrapper-borderless-disabled, .ant-input-affix-wrapper-borderless[disabled] {
+  background-color: transparent!important;
+  border: none;
+  box-shadow: none;
+  background-color: #0a1018;
+  background-image: none;
+  border: 0px solid #000000!important;
 // SLIDER BUY SELL BOX
-
+}
 .ant-slider-rail {
   position: absolute;
   width: 100%;
@@ -116,4 +139,10 @@ th, .ant-table.ant-table-small .ant-table-tbody > tr > td, .ant-table.ant-table-
 }
 .ant-slider:hover .ant-slider-rail {
   background-color: #142c2b;
+}
+
+.ant-switch {
+
+  background-color: rgb(10 16 24);
+
 }

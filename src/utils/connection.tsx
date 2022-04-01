@@ -11,6 +11,11 @@ export const ENDPOINTS: EndpointInfo[] = [
     endpoint: 'https://api.devnet.safecoin.org',
     custom: true,
   },
+  {
+    name: 'testnet2',
+    endpoint: 'http://161.97.156.164:8328/',
+    custom: true,
+  },
   { name: 'localnet', endpoint: 'http://127.0.0.1:8899', custom: false },
 ];
 

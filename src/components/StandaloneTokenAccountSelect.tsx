@@ -48,6 +48,7 @@ export default function StandaloneTokenAccountsSelect({
       {label && <Col span={8}>Token account:</Col>}
       <Col span={label ? 13 : 21}>
         <Select
+        bordered={false}
           style={{ width: '100%' }}
           value={selectedValue}
           onSelect={setTokenAccountForCoin}

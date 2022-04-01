@@ -343,7 +343,7 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
         style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
         <TradeForm setChangeOrderRef={onChangeOrderRef} />
-        <StandaloneBalancesDisplayV2 />
+        
       </Col>
     </Row>
   );
@@ -376,7 +376,7 @@ const RenderSmall = ({ onChangeOrderRef, onPrice, onSize }) => {
           style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
         >
           <TradeForm setChangeOrderRef={onChangeOrderRef} />
-          <StandaloneBalancesDisplayV2 />
+          {/*<StandaloneBalancesDisplayV2 />*/}
         </Col>
       </Row>
       <Row>
@@ -399,7 +399,7 @@ const RenderSmaller = ({ onChangeOrderRef, onPrice, onSize }) => {
           <TradeForm style={{ flex: 1 }} setChangeOrderRef={onChangeOrderRef} />
         </Col>
         <Col xs={24} sm={12}>
-          <StandaloneBalancesDisplayV2 />
+          {/* <StandaloneBalancesDisplayV2 />*/}
         </Col>
       </Row>
       <Row

@@ -21,6 +21,7 @@ import { getUnixTs, placeOrder } from '../utils/send';
 import { SwitchChangeEventHandler } from 'antd/es/switch';
 import { refreshCache } from '../utils/fetch-loop';
 import tuple from 'immutable-tuple';
+import StandaloneBalancesDisplayV2 from './StandaloneBalancesDisplayV2';
 
 const SellButton = styled(Button)`
   margin: 20px 0px 0px 0px;
@@ -41,6 +42,14 @@ left: 25%;
 font-size :x-large;
 width:fit-content;
 `;
+
+const TotalOrderInput = styled(Input)`
+&&.ant-input-affix-wrapper {
+border: 0px solid #000000;
+background-color: transparent;
+}
+`;
+
 const sliderMarks = {
   0: '0%',
   25: '25%',
@@ -326,27 +335,27 @@ export default function TradeForm({
                 SELL
               </Radio.Button>
             </Radio.Group>
-            <div style={{paddingLeft:15, paddingRight:15}}>
-              <div style={{display:'flex'}}>
-              <div>Balance :</div>
-              <div>{quoteCurrency}</div>
-              </div>
-            <Input
-              size='large'
-              style={{ textAlign: 'right', paddingBottom: 8,  fontFamily:'monospace' }}
-              addonBefore={<div style={{ width: '30px' }}>Price</div>}
-              suffix={
-                <span style={{ fontSize: 10, opacity: 0.5 }}>{quoteCurrency}</span>
-              }
-              value={price}
-              type="number"
-              step={market?.tickSize || 1}
-              onChange={(e) => setPrice(parseFloat(e.target.value))}
-            />
-            
+            <div style={{ paddingLeft: 15, paddingRight: 15 }}>
+              
+              <StandaloneBalancesDisplayV2 activeCurrency={side === 'buy' ? 'base' : 'quote'} />
+
+              
               <Input
                 size='large'
-                style={{ /*width: 'calc(50% + 30px)',*/ paddingBottom: 8, textAlign: 'right', fontFamily:'monospace' }}
+                style={{ textAlign: 'right', paddingBottom: 8, fontFamily: 'monospace' }}
+                addonBefore={<div style={{ width: '30px' }}>Price</div>}
+                suffix={
+                  <span style={{ fontSize: 10, opacity: 0.5 }}>{quoteCurrency}</span>
+                }
+                value={price}
+                type="number"
+                step={market?.tickSize || 1}
+                onChange={(e) => setPrice(parseFloat(e.target.value))}
+              />
+
+              <Input
+                size='large'
+                style={{ /*width: 'calc(50% + 30px)',*/ paddingBottom: 8, textAlign: 'right', fontFamily: 'monospace' }}
                 addonBefore={<div style={{ width: '30px' }}>Size</div>}
                 suffix={
                   <span style={{ fontSize: 10, opacity: 0.5 }}>{baseCurrency}</span>
@@ -357,16 +366,16 @@ export default function TradeForm({
                 onChange={(e) => onSetBaseSize(parseFloat(e.target.value))}
               />
 
-              </div>
-            <div style={{paddingTop:15, paddingLeft:10, paddingRight:10}}>
-            <Slider
-              value={sizeFraction}
-              tipFormatter={(value) => `${value}%`}
-              marks={sliderMarks}
-              onChange={onSliderChange}
-            />
             </div>
-            <div style={{ paddingTop: 18, paddingBottom:18, textAlign:'center' }}>
+            <div style={{ paddingTop: 15, paddingLeft: 10, paddingRight: 10 }}>
+              <Slider
+                value={sizeFraction}
+                tipFormatter={(value) => `${value}%`}
+                marks={sliderMarks}
+                onChange={onSliderChange}
+              />
+            </div>
+            <div style={{ paddingTop: 18, paddingBottom: 18, textAlign: 'center' }}>
               {'POST '}
               <Switch
                 checked={postOnly}
@@ -376,21 +385,23 @@ export default function TradeForm({
               {'IOC '}
               <Switch checked={ioc} onChange={iocOnChange} />
             </div>
-            <Input
-            bordered={false}
-                size='large'
-                style={{ /*width: 'calc(50% - 30px)',*/ textAlign: 'right', fontFamily:'monospace', border:'0px' }}
-                addonBefore={<div style={{ width: '30px' }}>Total</div>}
-                suffix={
-                  <span style={{ fontSize: 10, opacity: 0.5 }}>
-                    {quoteCurrency}
-                  </span>
-                }
-                value={quoteSize}
-                type="number"
-                step={market?.minOrderSize || 1}
-                onChange={(e) => onSetQuoteSize(parseFloat(e.target.value))}
-              />
+            <TotalOrderInput
+              bordered={false}
+              size='large'
+              style={{ /*width: 'calc(50% - 30px)',*/ textAlign: 'right', fontFamily: 'monospace', border: '0px' }}
+              addonBefore={<div style={{ width: '30px' }}>Order value</div>}
+              suffix={
+                <span style={{ fontSize: 10, opacity: 0.5 }}>
+                  {quoteCurrency}
+                </span>
+              }
+              value={quoteSize}
+              className="totalordform"
+              //class="test2"
+              type="number"
+              step={market?.minOrderSize || 1}
+              onChange={(e) => onSetQuoteSize(parseFloat(e.target.value))}
+            />
           </div>
           {side === 'buy' ? (
             <BuyButton

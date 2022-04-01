@@ -1,5 +1,5 @@
 import { Button, Col, Divider, Popover, Row } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FloatingElement from './layout/FloatingElement';
 import styled from 'styled-components';
 import {
@@ -40,7 +40,7 @@ const ActionButton = styled(Button)`
   border-width: 0px;
 `;
 
-export default function StandaloneBalancesDisplayV2() {
+export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
   const { baseCurrency, quoteCurrency, market } = useMarket();
   const balances = useBalances();
   const openOrdersAccount = useSelectedOpenOrdersAccount(true);
@@ -57,6 +57,9 @@ export default function StandaloneBalancesDisplayV2() {
   const [autoSettleEnabled] = useLocalStorageState('autoSettleEnabled', true);
   const [lastSettledAt, setLastSettledAt] = useState<number>(0);
   const { usdcRef, usdtRef } = useReferrer();
+
+  const [CurrencyIndex, setCurrencyIndex] = useState([0, 0]);
+
   async function onSettleFunds() {
     if (!wallet) {
       notify({
@@ -170,22 +173,32 @@ export default function StandaloneBalancesDisplayV2() {
     string,
     string | undefined,
   ][] = [
-    [
-      baseCurrency,
-      baseCurrencyBalances,
-      'base',
-      market?.baseMintAddress.toBase58(),
-    ],
-    [
-      quoteCurrency,
-      quoteCurrencyBalances,
-      'quote',
-      market?.quoteMintAddress.toBase58(),
-    ],
-  ];
+      [
+        baseCurrency,
+        baseCurrencyBalances,
+        'base',
+        market?.baseMintAddress.toBase58(),
+      ],
+      [
+        quoteCurrency,
+        quoteCurrencyBalances,
+        'quote',
+        market?.quoteMintAddress.toBase58(),
+      ],
+    ];
+
+  //console.log("formattedBalances ", formattedBalances[0])
+  useEffect(() => {
+    console.log("activeCurrencyt ", activeCurrency, "Currencyindex ", CurrencyIndex)
+    if (activeCurrency != 'base') {
+      setCurrencyIndex([0, 1]);
+    } else {
+      setCurrencyIndex([1, 2]);
+    }
+  }, [activeCurrency]);
 
   return (
-    <FloatingElement style={{ flex: 1, padding: 15 }}>
+    <div>
       {formattedBalances.map(
         ([currency, balances, baseOrQuote, mint], index) => (
           <React.Fragment key={index}>
@@ -228,23 +241,22 @@ export default function StandaloneBalancesDisplayV2() {
             >
               <Col>Unsettled balance:</Col>
               <Col>{balances && balances.unsettled}</Col>
-            </RowBox>
-            <RowBox align="middle" justify="space-around">
-              <Col style={{ width: 150 }}>
-                <ActionButton
-                  block
-                  size="large"
-                  onClick={() => setBaseOrQuote(baseOrQuote)}
-                >
-                  Deposit
+              <Col >
+                <ActionButton block size="small" onClick={onSettleFunds}>
+                  Settle
                 </ActionButton>
               </Col>
+            </RowBox>
+            {/* 
+            <RowBox align="middle" justify="space-around">
               <Col style={{ width: 150 }}>
                 <ActionButton block size="large" onClick={onSettleFunds}>
                   Settle
                 </ActionButton>
               </Col>
             </RowBox>
+            */}
+            <div style={{textAlign:'center', opacity:'0.7'}}>
             <Tip>
               All deposits go to your{' '}
               <Link external to={providerUrl}>
@@ -252,13 +264,14 @@ export default function StandaloneBalancesDisplayV2() {
               </Link>{' '}
               wallet
             </Tip>
+            </div>
           </React.Fragment>
         ),
-      )}
+      ).slice(CurrencyIndex[0], CurrencyIndex[1])}
       <DepositDialog
         baseOrQuote={baseOrQuote}
         onClose={() => setBaseOrQuote('')}
       />
-    </FloatingElement>
+    </div>
   );
 }
