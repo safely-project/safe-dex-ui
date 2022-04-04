@@ -35,6 +35,7 @@ import { SerumVialProvider } from '../utils/serum-vial';
 // function TVChartContainer() {
 //   return <></>
 // }
+import useWindowDimensions from '../utils/winsize';
 
 const { Option, OptGroup } = Select;
 
@@ -49,6 +50,7 @@ const Wrapper = styled.div`
 `;
 
 export default function TradePage() {
+
   const { marketAddress } = useParams();
   useEffect(() => {
     if (marketAddress) {
@@ -314,6 +316,7 @@ const DeprecatedMarketsPage = ({ switchToLiveMarkets }) => {
 };
 
 const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
+  const { height, width } = useWindowDimensions();
   return (
     <Row
       style={{
@@ -322,6 +325,9 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       }}
     >
       <Col flex={'280px'} style={{ height: '100%' }}>
+      {/*<div>
+      width: {width} ~ height: {height}
+    </div> */}
         <WrapperMarket />
       </Col>
       <Col flex={'360px'} style={{ height: '100%' }}>

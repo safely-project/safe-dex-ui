@@ -62,7 +62,12 @@ function getCumulativeOrderbookSide(orders, totalSize, backwards = false) {
   return cumulative;
 }
 
-export default function Orderbook({ smallScreen, depth = 7, onPrice, onSize }) {
+export default function Orderbook({
+  smallScreen,
+  depth = 12,
+  onPrice,
+  onSize,
+}) {
   const markPrice = useMarkPrice();
   const { baseCurrency, quoteCurrency } = useMarket();
 

@@ -16,12 +16,6 @@ import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 const Title = styled.div`
   color: rgba(255, 255, 255, 1);
 `;
-const SizeTitle = styled(Row)`
-  padding: 20px 0 14px;
-  color: #434a59;
-`;
-
-const { Option, OptGroup } = Select;
 
 export default function WrapperMarket() {
 
@@ -61,6 +55,8 @@ export default function WrapperMarket() {
   }, []);
 
   const width = dimensions?.width;
+
+  console.log("width from useeffect : ", width)
   const componentProps = {
     onChangeOrderRef: (ref) => (changeOrderRef.current = ref),
     onPrice: useCallback(
@@ -94,65 +90,66 @@ export default function WrapperMarket() {
     setCustomMarkets(newCustomMarkets);
   };
 
-
-
-return (
-  <>
-    <FloatingElement style={{ flex: 1 }}>
-      <div style={{ backgroundColor: COLORS.secondary, borderTopLeftRadius: '6px', borderTopRightRadius: '6px', padding: '10px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Title style={{
-            paddingLeft: '10px',
-            textTransform: 'uppercase',
-            letterSpacing: '1px',
-            opacity: '0.8'
-          }}>Markets</Title>
-          <div style={{ display: 'flex' }}>
-            {market ? (
+  return (
+    <>
+      <FloatingElement style={{ flex: 1 }}>
+        <div style={{ backgroundColor: COLORS.secondary, borderTopLeftRadius: '6px', borderTopRightRadius: '6px', padding: '10px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Title style={{
+              paddingLeft: '10px',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              opacity: '0.8'
+            }}>Markets</Title>
+            <div style={{ display: 'flex' }}>
+              {market ? (
+                <Col>
+                  <Popover
+                    content={<LinkAddress address={market.publicKey.toBase58()} />}
+                    placement="bottomRight"
+                    title="Market address"
+                    trigger="click"
+                  >
+                    <InfoCircleOutlined style={{ color: '#2abdd2' }} />
+                  </Popover>
+                </Col>
+              ) : null}
               <Col>
-                <Popover
-                  content={<LinkAddress address={market.publicKey.toBase58()} />}
-                  placement="bottomRight"
-                  title="Market address"
-                  trigger="click"
-                >
-                  <InfoCircleOutlined style={{ color: '#2abdd2' }} />
-                </Popover>
+                <PlusOutlined
+                  style={{ color: '#2abdd2' }}
+                  onClick={() => setAddMarketVisible(true)}
+                />
               </Col>
-            ) : null}
-            <Col>
-              <PlusOutlined
-                style={{ color: '#2abdd2' }}
-                onClick={() => setAddMarketVisible(true)}
-              />
-            </Col>
+            </div>
           </div>
+
         </div>
+        <CustomMarketDialog
+          visible={addMarketVisible}
+          onClose={() => setAddMarketVisible(false)}
+          onAddCustomMarket={onAddCustomMarket}
+        />
+        <Row
+          align="stretch"
+          style={{ paddingLeft: 5, paddingRight: 5, justifyContent: 'space-between' }}
+          gutter={16}
+        >
 
-      </div>
-      <CustomMarketDialog
-        visible={addMarketVisible}
-        onClose={() => setAddMarketVisible(false)}
-        onAddCustomMarket={onAddCustomMarket}
-      />
-      <Row
-        align="stretch"
-        style={{ paddingLeft: 5, paddingRight: 5, justifyContent: 'space-between' }}
-        gutter={16}
-      >
-
-      </Row>
-      <MarketListCustom
-        markets={markets}
-        setHandleDeprecated={setHandleDeprecated}
-        placeholder={'Select market'}
-        customMarkets={customMarkets}
-        onDeleteCustomMarket={onDeleteCustomMarket}
-      />
-    </FloatingElement>
-  </>
-);
+        </Row>
+        <MarketListCustom
+          cheight={dimensions.height}
+          markets={markets}
+          setHandleDeprecated={setHandleDeprecated}
+          placeholder={'Select market'}
+          customMarkets={customMarkets}
+          onDeleteCustomMarket={onDeleteCustomMarket}
+        />
+      </FloatingElement>
+    </>
+  );
 }
+
+
 
 function MarketListCustom({
   markets,
@@ -160,13 +157,26 @@ function MarketListCustom({
   setHandleDeprecated,
   customMarkets,
   onDeleteCustomMarket,
+  cheight
 }) {
   const { market, setMarketAddress } = useMarket();
 
+  //console.log('cheight : ', cheight)
   const onSetMarketAddress = (marketAddress) => {
     setHandleDeprecated(false);
     setMarketAddress(marketAddress);
   };
+
+
+  const MarketHeightDyn = styled.div`
+  overflow-y: scroll;
+  height: ${cheight - 135}px;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none; /* for Firefox */
+    &::-webkit-scrollbar {
+      width: 0px;
+      border: 0px solid black;
+`;
 
   function onsetGhetto(marketAddress) {
     setMarketAddress(marketAddress);
@@ -198,7 +208,7 @@ function MarketListCustom({
     //console.log('PlusorMinus', plusOrMinus)
     return (
       <>
-        <div style={plusOrMinus > 0 ? {color:'green'} : {color:'red'}}>{plusOrMinus} %</div>
+        <div style={plusOrMinus > 0 ? { color: 'green' } : { color: 'red' }}>{plusOrMinus} %</div>
       </>
     )
   }
@@ -210,139 +220,10 @@ function MarketListCustom({
         market?.address && proposedMarket.address.equals(market.address),
     )
     ?.address?.toBase58();
-  //console.log("onSelect={onSetMarketAddress} ", onSetMarketAddress)
-  //console.log("value={selectedMarket} ", selectedMarket)
   return (
     <>
       <>
-        {/*<Select
-          //defaultOpen={true}
-          showSearch
-          size={'large'}
-          style={{ width: 200 }}
-          placeholder={placeholder || 'Select a market'}
-          optionFilterProp="name"
-          onSelect={onSetMarketAddress}
-          listHeight={400}
-          value={selectedMarket}
-          filterOption={(input, option) =>
-            option?.name?.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-        >
-          {customMarkets && customMarkets.length > 0 && (
-            <OptGroup label="Custom">
-              {customMarkets.map(({ address, name }, i) => (
-                <Option
-                  value={address}
-                  key={nanoid()}
-                  name={name}
-                  style={{
-                    padding: '10px',
-                    // @ts-ignore
-                    backgroundColor: i % 2 === 0 ? 'rgb(39, 44, 61)' : null,
-                  }}
-                >
-                  <Row>
-                    <Col flex="auto">{name}</Col>
-                    {selectedMarket !== address && (
-                      <Col>
-                        <DeleteOutlined
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            e.nativeEvent.stopImmediatePropagation();
-                            onDeleteCustomMarket && onDeleteCustomMarket(address);
-                          }}
-                        />
-                      </Col>
-                    )}
-                  </Row>
-                </Option>
-              ))}
-            </OptGroup>
-          )}
-          <OptGroup label="Markets">
-            {markets
-              .sort((a, b) =>
-                extractQuote(a.name) === 'USDT' && extractQuote(b.name) !== 'USDT'
-                  ? -1
-                  : extractQuote(a.name) !== 'USDT' &&
-                    extractQuote(b.name) === 'USDT'
-                    ? 1
-                    : 0,
-              )
-              .sort((a, b) =>
-                extractBase(a.name) < extractBase(b.name)
-                  ? -1
-                  : extractBase(a.name) > extractBase(b.name)
-                    ? 1
-                    : 0,
-              )
-              .map(({ address, name, deprecated }, i) => (
-                <Option
-                  value={address.toBase58()}
-                  key={nanoid()}
-                  name={name}
-                  style={{
-                    padding: '10px',
-                    // @ts-ignore
-                    backgroundColor: i % 2 === 0 ? 'rgb(39, 44, 61)' : null,
-                  }}
-                >
-                  {name} {deprecated ? ' (Deprecated)' : null}
-                </Option>
-              ))}
-          </OptGroup>
-                </Select>*/}
-      </>
-      <>
-        {/*<Select
-          //defaultOpen={true}
-          showSearch
-          size={'large'}
-          style={{ width: 200 }}
-          placeholder={placeholder || 'Select a market'}
-          optionFilterProp="name"
-          onSelect={onSetMarketAddress}
-          listHeight={400}
-          value={selectedMarket}
-          filterOption={(input, option) =>
-            option?.name?.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
-        >
-          <OptGroup label="Markets">
-            {markets
-              .sort((a, b) =>
-                extractQuote(a.name) === 'USDT' && extractQuote(b.name) !== 'USDT'
-                  ? -1
-                  : extractQuote(a.name) !== 'USDT' &&
-                    extractQuote(b.name) === 'USDT'
-                    ? 1
-                    : 0,
-              )
-              .sort((a, b) =>
-                extractBase(a.name) < extractBase(b.name)
-                  ? -1
-                  : extractBase(a.name) > extractBase(b.name)
-                    ? 1
-                    : 0,
-              )
-              .map(({ address, name, deprecated }, i) => (
-                <Option
-                  value={address.toBase58()}
-                  key={nanoid()}
-                  name={name}
-                  style={{
-                    padding: '10px',
-                    // @ts-ignore
-                    backgroundColor: i % 2 === 0 ? 'rgb(39, 44, 61)' : null,
-                  }}
-                >
-                  {name} {deprecated ? ' (Deprecated)' : null}
-                </Option>
-              ))}
-          </OptGroup>
-                </Select>*/}
-        <div>
+        <MarketHeightDyn>
           {markets
             .sort((a, b) =>
               extractQuote(a.name) === 'USDT' && extractQuote(b.name) !== 'USDT'
@@ -396,8 +277,8 @@ function MarketListCustom({
                         }}>
                           {getSymbols(name)[1]}</div> {deprecated ? ' (Deprecated)' : null}
                       </div>
-                      <div style={{display:'flex'}}>
-                        <div style={{color:'grey', marginRight:'8px'}}>Vol:</div> 13
+                      <div style={{ display: 'flex' }}>
+                        <div style={{ color: 'grey', marginRight: '8px' }}>Vol:</div> 13
                       </div>
                     </div>
                   </div>
@@ -414,10 +295,10 @@ function MarketListCustom({
                     </div>
                   </div>
                 </div>
-
               </Button>
             ))}
-        </div>
+
+        </MarketHeightDyn>
       </>
     </>
   );

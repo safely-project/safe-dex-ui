@@ -202,19 +202,7 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
       {formattedBalances.map(
         ([currency, balances, baseOrQuote, mint], index) => (
           <React.Fragment key={index}>
-            <Divider style={{ borderColor: 'white' }}>
-              {currency}{' '}
-              {mint && (
-                <Popover
-                  content={<LinkAddress address={mint} />}
-                  placement="bottomRight"
-                  title="Token mint"
-                  trigger="hover"
-                >
-                  <InfoCircleOutlined style={{ color: '#2abdd2' }} />
-                </Popover>
-              )}
-            </Divider>
+
             {connected && (
               <RowBox align="middle" style={{ paddingBottom: 10 }}>
                 <StandaloneTokenAccountsSelect
@@ -233,6 +221,19 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
             >
               <Col>Wallet balance:</Col>
               <Col>{balances && balances.wallet}</Col>
+              <Col>
+              {currency}{' '}
+              {mint && (
+                <Popover
+                  content={<LinkAddress address={mint} />}
+                  placement="bottomRight"
+                  title="Token mint"
+                  trigger="hover"
+                >
+                  <InfoCircleOutlined style={{ color: '#2abdd2' }} />
+                </Popover>
+              )}
+              </Col>
             </RowBox>
             <RowBox
               align="middle"
