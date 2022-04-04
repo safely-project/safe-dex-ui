@@ -235,7 +235,7 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
               )}
               </Col>
             </RowBox>
-            <RowBox
+            {balances?.unsettled != 0 ? <RowBox
               align="middle"
               justify="space-between"
               style={{ paddingBottom: 12 }}
@@ -247,7 +247,8 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
                   Settle
                 </ActionButton>
               </Col>
-            </RowBox>
+            </RowBox> : null }
+            
             {/* 
             <RowBox align="middle" justify="space-around">
               <Col style={{ width: 150 }}>
