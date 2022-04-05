@@ -20,6 +20,16 @@ import AppSearch from './AppSearch';
 import { getTradePageUrl } from '../utils/markets';
 
 // here is navbar bg
+const MenuItem = styled(Menu.Item)`
+ant-menu-item-selected {
+
+  span {
+    background-color:red;
+  }
+}
+
+`;
+
 const Wrapper = styled.div`
  
   display: flex;
@@ -159,9 +169,9 @@ export default function TopBar() {
             flex: 1,
           }}
         >
-          <Menu.Item key={tradePageUrl} style={{ margin: '0 10px 0 20px' }}>
+          <MenuItem key={tradePageUrl} style={{ margin: '0 10px 0 20px' }}>
             TRADE
-          </Menu.Item>
+          </MenuItem>
           {/*!searchFocussed && (
             <Menu.Item key="/swap" style={{ margin: '0 10px',color:'rgb(180, 180, 180)' }}>
               <a
@@ -273,62 +283,69 @@ export default function TopBar() {
           />
         </div>
         <div>
-          <Row
-            align="middle"
-            style={{ paddingLeft: 5, paddingRight: 5 }}
-            gutter={16}
-          >
-            <Col>
-              <PlusCircleOutlined
-                style={{ color: '#2abdd2' }}
-                onClick={() => setAddEndpointVisible(true)}
-              />
-            </Col>
-            <Col>
-              <Popover
-                content={endpoint}
-                placement="bottomRight"
-                title="URL"
-                trigger="hover"
-              >
-                <InfoCircleOutlined style={{ color: '#2abdd2' }} />
-              </Popover>
-            </Col>
-            {/* 
-            <Col>
-              <Select
-                onSelect={setEndpoint}
-                value={endpoint}
-                style={{ marginRight: 8, width: '150px' }}
-              >
-                {availableEndpoints.map(({ name, endpoint }) => (
-                  <Select.Option value={endpoint} key={endpoint}>
-                    {name}
-                  </Select.Option>
-                ))}
-              </Select>
-            </Col>
-            */}
-          </Row>
+
         </div>
-        {connected && (
-          <div>
-            <Popover
-              content={<Settings autoApprove={wallet?.autoApprove} />}
-              placement="bottomRight"
-              title="Settings"
-              trigger="click"
-            >
-              <Button style={{ marginRight: 8 }}>
-                <SettingOutlined />
-                Settings
-              </Button>
-            </Popover>
-          </div>
-        )}
         <div>
           <WalletConnect />
         </div>
+
+        <div>
+          <Popover
+            content={
+
+              <>
+                <Settings autoApprove={wallet?.autoApprove} />
+                <Row
+                  align="middle"
+                  style={{ paddingLeft: 5, paddingRight: 5 }}
+                  gutter={16}
+                >
+                  <Col>
+                    <PlusCircleOutlined
+                      style={{ color: '#2abdd2' }}
+                      onClick={() => setAddEndpointVisible(true)}
+                    />
+                  </Col>
+                  <Col>
+                    <Popover
+                      content={endpoint}
+                      placement="bottomRight"
+                      title="URL"
+                      trigger="hover"
+                    >
+                      <InfoCircleOutlined style={{ color: '#2abdd2' }} />
+                    </Popover>
+                  </Col>
+                  {/* 
+              <Col>
+                <Select
+                  onSelect={setEndpoint}
+                  value={endpoint}
+                  style={{ marginRight: 8, width: '150px' }}
+                >
+                  {availableEndpoints.map(({ name, endpoint }) => (
+                    <Select.Option value={endpoint} key={endpoint}>
+                      {name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Col>
+              */}
+                </Row>
+              </>
+
+            }
+            placement="bottomRight"
+            title="Settings"
+            trigger="click"
+          >
+
+            <Button type="primary" style={{ marginRight: 8, backgroundColor: '#18222f', marginLeft:8, borderColor:'#18222f' }}>
+              <SettingOutlined />
+            </Button>
+          </Popover>
+        </div>
+
       </Wrapper>
     </>
   );

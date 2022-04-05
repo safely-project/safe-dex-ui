@@ -12,7 +12,7 @@ export default function LinkAddress({
   shorten?: boolean;
 }) {
   return (
-    <div>
+    <div style={{paddingLeft:'7px'}}>
       {title && <p style={{ color: 'white' }}>{title}</p>}
       <Button
         type="link"
@@ -26,11 +26,13 @@ export default function LinkAddress({
       >
         <div style={{
           position: 'absolute',
-          marginLeft: '-27px'
+          marginLeft: '-27px',
+          paddingTop:'2px',
+          
         }}>
 
-          <Jazzicon diameter={25} seed={jsNumberForAddress(address)} />
-        </div>{shorten ? `${address.slice(0, 4)}...${address.slice(-4)}` : address}
+          <Jazzicon diameter={19} seed={jsNumberForAddress(address)} />
+        </div><div style={{color:'#aff2fb'}}>{shorten ? `${address.slice(0, 4)}...${address.slice(-4)}` : address}</div>
       </Button>
     </div>
   );

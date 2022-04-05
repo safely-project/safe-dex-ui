@@ -3,6 +3,7 @@ import { Button, Col, Popover, Row, Select, Typography } from 'antd';
 import styled from 'styled-components';
 import Orderbook from '../components/Orderbook';
 import UserInfoTable from '../components/UserInfoTable';
+import QuickBalanceTable from '../components/QuickBalanceTable'
 import StandaloneBalancesDisplayV2 from '../components/StandaloneBalancesDisplayV2';
 import {
   getMarketInfos,
@@ -342,6 +343,7 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
         </Row>
         <Row style={{ height: '70%' }}>
           <UserInfoTable />
+
         </Row>
       </Col>
       <Col
@@ -349,7 +351,7 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
         style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
         <TradeForm setChangeOrderRef={onChangeOrderRef} />
-        
+        <QuickBalanceTable smallScreen={false}/>
       </Col>
     </Row>
   );
