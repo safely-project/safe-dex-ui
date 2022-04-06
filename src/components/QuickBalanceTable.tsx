@@ -1,11 +1,13 @@
 import { Col, Row } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
-import { useMarket } from '../utils/markets';
+import { useAllOpenOrdersBalances, useMarket, useWalletBalancesForAllMarkets } from '../utils/markets';
 import { getDecimalCount } from '../utils/utils';
 import FloatingElement from './layout/FloatingElement';
 import { useSerumVialMarketData } from '../utils/serum-vial';
 import { COLORS } from './colors';
+import { useMintToTickers } from '../utils/tokens';
+import LightWalletBalancesTable from './UserInfoTable/LightWalletBalancesTable';
 
 const Title = styled.div`
   color: rgba(255, 255, 255, 1);
@@ -16,8 +18,24 @@ const SizeTitle = styled(Row)`
 `;
 
 export default function QuickBalanceTable({ smallScreen }) {
-  const { baseCurrency, quoteCurrency, market } = useMarket();
-  const { trades } = useSerumVialMarketData();
+  const walletBalances = useWalletBalancesForAllMarkets();
+  const mintToTickers = useMintToTickers();
+  const openOrdersBalances = useAllOpenOrdersBalances();
+
+  const data = (walletBalances || []).map((balance) => {
+    const balances = {
+      coin: mintToTickers[balance.mint],
+      mint: balance.mint,
+      walletBalance: balance.balance,
+      openOrdersFree: 0,
+      openOrdersTotal: 0,
+    };
+    for (let openOrdersAccount of openOrdersBalances[balance.mint] || []) {
+      balances['openOrdersFree'] += openOrdersAccount.free;
+      balances['openOrdersTotal'] += openOrdersAccount.total;
+    }
+    return balances;
+  });
 
   return (
     <FloatingElement
@@ -39,54 +57,9 @@ export default function QuickBalanceTable({ smallScreen }) {
           opacity: '0.8'
         }}>Wallet Balances</Title>
       </div>
-      <SizeTitle>
-        <Col span={8}>Price ({quoteCurrency}) </Col>
-        <Col span={8} style={{ textAlign: 'right' }}>
-          Size ({baseCurrency})
-        </Col>
-        <Col span={8} style={{ textAlign: 'right' }}>
-          Time
-        </Col>
-      </SizeTitle>
-      {trades.length > 0 && (
-        <div
-          style={{
-            marginRight: '-20px',
-            paddingRight: '5px',
-            overflowY: 'scroll',
-            maxHeight: smallScreen
-              ? 'calc(100% - 75px)'
-              : 'calc(100vh - 800px)',
-          }}
-        >
-          {trades.map((trade, i: number) => (
-            <Row key={i} style={{ marginBottom: 4 }}>
-              <Col
-                span={8}
-                style={{
-                  color: trade.side === 'buy' ? '#41C77A' : '#F23B69',
-                }}
-              >
-                {market?.tickSize && !isNaN(trade.price)
-                  ? Number(trade.price).toFixed(
-                    getDecimalCount(market.tickSize),
-                  )
-                  : trade.price}
-              </Col>
-              <Col span={8} style={{ textAlign: 'right' }}>
-                {market?.minOrderSize && !isNaN(trade.size)
-                  ? Number(trade.size).toFixed(
-                    getDecimalCount(market.minOrderSize),
-                  )
-                  : trade.size}
-              </Col>
-              <Col span={8} style={{ textAlign: 'right', color: '#434a59' }}>
-                {new Date(trade.timestamp).toLocaleTimeString()}
-              </Col>
-            </Row>
-          ))}
-        </div>
-      )}
+      <LightWalletBalancesTable walletBalances={data} />
+        
+      
     </FloatingElement>
   );
 }

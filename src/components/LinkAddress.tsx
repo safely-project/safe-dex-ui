@@ -6,10 +6,12 @@ export default function LinkAddress({
   title,
   address,
   shorten = false,
+  color,
 }: {
   title?: undefined | any;
   address: string;
   shorten?: boolean;
+  color?:string;
 }) {
   return (
     <div style={{paddingLeft:'7px'}}>
@@ -32,7 +34,7 @@ export default function LinkAddress({
         }}>
 
           <Jazzicon diameter={19} seed={jsNumberForAddress(address)} />
-        </div><div style={{color:'#aff2fb'}}>{shorten ? `${address.slice(0, 4)}...${address.slice(-4)}` : address}</div>
+        </div><div style={{color:color}} className="shortenedadd">{shorten ? `${address.slice(0, 4)}...${address.slice(-4)}` : address}</div>
       </Button>
     </div>
   );

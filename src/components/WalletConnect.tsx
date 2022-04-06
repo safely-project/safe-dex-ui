@@ -17,19 +17,7 @@ const ButtonCustomDrop = styled(Dropdown.Button)`
   }
 `;
 
-const ButtonCustom = styled(Button)`
-  & {
-    background: rgb(3 66 96);
-    color: rgb(84 221 235);
-    border: none;
-    border-radius: 3px;
-    /* margin-left: 10px; */
-    &:hover {
-      background: rgb(84 221 235);
-      color: rgb(15 23 34);
-    }
-  }
-`;
+
 const ButtonDisCustom = styled(Button)`
   &&& {
     border-radius: 205px;
@@ -42,7 +30,20 @@ export default function WalletConnect() {
   const { connected, wallet, select, connect, disconnect } = useWallet();
   const publicKey = (connected && wallet?.publicKey?.toBase58()) || '';
 
+  const ButtonCustom = styled(Button)`
+  
+  background: rgb(3 66 96);
+  color: rgb(84 221 235);
+  border: 1px solid rgb(3 66 96);
+  ${connected  ? 'padding-top:3px' : ''};
+  border-radius: 3px;
+  /* margin-left: 10px; */
+  &:hover {
+    background: rgb(84 221 235);
+    color: rgb(15 23 34);
+  }
 
+`;
   const menu2 = (
     <Menu>
       <Menu.Item>
