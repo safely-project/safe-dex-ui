@@ -32,13 +32,10 @@ export default function LightWalletBalancesTable({
   const [allMarkets, allMarketsConnected] = useAllMarkets();
   const [settlingFunds, setSettlingFunds] = useState(false);
 
-
-function filterSupported(balance) {
-  let javascript_freelancers = balance.filter(function(walletfiltered) {
-    return walletfiltered.coin == "SAFE"; });
-  console.log("filtered ", javascript_freelancers)
-}
-filterSupported(walletBalances);
+  const filteredBalances = walletBalances.filter(function(walletfiltered) {
+    
+    return walletfiltered.coin != undefined; 
+  });
 
   async function onSettleFunds() {
     setSettlingFunds(true);
@@ -142,7 +139,7 @@ filterSupported(walletBalances);
     <React.Fragment>
       <DataTable
         emptyLabel="No balances"
-        dataSource={walletBalances}
+        dataSource={filteredBalances}
         columns={columns}
         pagination={false}
         

@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useMarket } from '../utils/markets';
 import { getDecimalCount } from '../utils/utils';
@@ -18,6 +18,25 @@ const SizeTitle = styled(Row)`
 export default function PublicTrades({ smallScreen }) {
   const { baseCurrency, quoteCurrency, market } = useMarket();
   const { trades } = useSerumVialMarketData();
+  const [dimensions, setDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const width = dimensions?.width;
 
   return (
     <FloatingElement
@@ -25,8 +44,8 @@ export default function PublicTrades({ smallScreen }) {
         smallScreen
           ? { flex: 1 }
           : {
-            marginTop: '10px',
-            minHeight: '270px',
+            marginTop: '4px',
+            minHeight: dimensions.height -603,
             maxHeight: 'calc(100vh - 700px)',
           }
       }

@@ -36,7 +36,7 @@ export default function WrapperMarket() {
   });
 
   useEffect(() => {
-    document.title = marketName ? `${marketName} — Serum` : 'Serum';
+    document.title = marketName ? `${marketName} — Safeswap` : 'Safeswap';
   }, [marketName]);
 
   const changeOrderRef =
@@ -56,7 +56,7 @@ export default function WrapperMarket() {
 
   const width = dimensions?.width;
 
-  console.log("width from useeffect : ", width)
+  //console.log("width from useeffect : ", width)
   const componentProps = {
     onChangeOrderRef: (ref) => (changeOrderRef.current = ref),
     onPrice: useCallback(

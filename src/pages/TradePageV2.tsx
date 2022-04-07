@@ -412,7 +412,7 @@ const RenderSmaller = ({ onChangeOrderRef, onPrice, onSize }) => {
       </Row>
       <Row
         style={{
-          height: '500px',
+         /* height: '500px',*/
         }}
       >
         <Col xs={24} sm={12} style={{ height: '100%', display: 'flex' }}>

@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useAllOpenOrdersBalances, useMarket, useWalletBalancesForAllMarkets } from '../utils/markets';
 import { getDecimalCount } from '../utils/utils';
@@ -21,7 +21,26 @@ export default function QuickBalanceTable({ smallScreen }) {
   const walletBalances = useWalletBalancesForAllMarkets();
   const mintToTickers = useMintToTickers();
   const openOrdersBalances = useAllOpenOrdersBalances();
+  const [dimensions, setDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth,
+  });
 
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const width = dimensions?.width;
+  
   const data = (walletBalances || []).map((balance) => {
     const balances = {
       coin: mintToTickers[balance.mint],
@@ -43,8 +62,8 @@ export default function QuickBalanceTable({ smallScreen }) {
         smallScreen
           ? { flex: 1 }
           : {
-            marginTop: '10px',
-            minHeight: '270px',
+            marginTop: '2px',
+            minHeight: dimensions.height -603,
             maxHeight: 'calc(100vh - 700px)',
           }
       }

@@ -36,7 +36,7 @@ export default function BasicLayout({ children }) {
           <TopBar />
         </Header>
         <Content style={{ flex: 1 }}>{children}</Content>
-        <Footer />
+        {/* <Footer /> */}
       </Layout>
     </React.Fragment>
   );
