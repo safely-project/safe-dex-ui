@@ -89,18 +89,9 @@ export default function Orderbook({
 
   return (
     <FloatingElement
-      style={
-        smallScreen ? { flex: 1 } : { height: '500px', overflow: 'hidden' }
-      }
+      style={smallScreen ? { flex: 1 } : { height: '60%', overflow: 'hidden' }}
     >
-      <div
-        style={{
-          backgroundColor: COLORS.secondary,
-          borderTopLeftRadius: '6px',
-          borderTopRightRadius: '6px',
-          padding: '10px',
-        }}
-      >
+      <div className="ara-box-header">
         <Title
           style={{
             paddingLeft: '10px',

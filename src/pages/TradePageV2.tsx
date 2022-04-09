@@ -44,7 +44,7 @@ const Wrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 7px 7px;
+ // padding: 7px 7px;
   .borderNone .ant-select-selector {
     border: none !important;
   }
@@ -321,12 +321,13 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
   return (
     <Row
       style={{
-        minHeight: '900px',
+        height: '92.5vh',
+        //minHeight: '900px',
         flexWrap: 'nowrap',
       }}
     >
       <Col flex={'280px'} style={{ height: '100%' }}>
-      {/*<div>
+        {/*<div>
       width: {width} ~ height: {height}
     </div> */}
         <WrapperMarket />
@@ -335,23 +336,29 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
         <Orderbook smallScreen={false} onPrice={onPrice} onSize={onSize} />
         <TradesTable smallScreen={false} />
       </Col>
-      <Col flex="auto" style={{ height: '50vh' }}>
-        <Row style={{ height: '100%' }}>
+      <Col flex="auto" style={{ height: '100%' }}>
+        <Row style={{ height: '60%' }}>
           <FloatingElement style={{ flex: 1, marginBottom: '47px' }}>
             <TVChartContainer />
           </FloatingElement>
         </Row>
-        <Row style={{ height: '70%' }}>
+        <Row style={{ height: '40%' }}>
           <UserInfoTable />
-
         </Row>
       </Col>
       <Col
         flex="400px"
-        style={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+        style={{ height: '100%', }}
       >
-        <TradeForm setChangeOrderRef={onChangeOrderRef} />
-        <QuickBalanceTable smallScreen={false}/>
+        <Row style={{ height: '60%' }}>
+          <div style={{ zIndex: 15 }}>
+            <TradeForm setChangeOrderRef={onChangeOrderRef} />
+          </div>
+
+        </Row>
+        <Row style={{ height: '40%' }}>
+          <QuickBalanceTable smallScreen={false} />
+        </Row>
       </Col>
     </Row>
   );
@@ -412,7 +419,7 @@ const RenderSmaller = ({ onChangeOrderRef, onPrice, onSize }) => {
       </Row>
       <Row
         style={{
-         /* height: '500px',*/
+          /* height: '500px',*/
         }}
       >
         <Col xs={24} sm={12} style={{ height: '100%', display: 'flex' }}>

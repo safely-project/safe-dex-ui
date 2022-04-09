@@ -134,6 +134,7 @@ export default function OpenOrderTable({
     <Row  >
       <Col span={24}>
         <DataTable
+        
           emptyLabel="No open orders"
           dataSource={dataSource}
           columns={columns}

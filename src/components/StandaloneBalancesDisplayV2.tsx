@@ -214,6 +214,11 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
                 />
               </RowBox>
             )}
+                        {!connected && (
+              <RowBox align="middle" style={{ paddingBottom: 10, height:'42px' }}>
+          <div>~</div>
+              </RowBox>
+            )}
             <RowBox
               align="middle"
               justify="space-between"
@@ -235,7 +240,7 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
               )}
               </Col>
             </RowBox>
-            {balances?.unsettled != 0 ? <RowBox
+            {/*balances?.unsettled != 0 ? <RowBox
               align="middle"
               justify="space-between"
               style={{ paddingBottom: 12 }}
@@ -247,8 +252,20 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
                   Settle
                 </ActionButton>
               </Col>
-            </RowBox> : null }
-            
+              </RowBox> : null */}
+            <RowBox
+              align="middle"
+              justify="space-between"
+              style={{ paddingBottom: 12 }}
+            >
+              <Col>Unsettled balance:</Col>
+              <Col>{balances && balances.unsettled}</Col>
+              <Col >
+                <ActionButton block size="small" onClick={onSettleFunds}>
+                  Settle
+                </ActionButton>
+              </Col>
+              </RowBox> 
             {/* 
             <RowBox align="middle" justify="space-around">
               <Col style={{ width: 150 }}>

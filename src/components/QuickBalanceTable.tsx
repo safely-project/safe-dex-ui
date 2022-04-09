@@ -62,13 +62,11 @@ export default function QuickBalanceTable({ smallScreen }) {
         smallScreen
           ? { flex: 1 }
           : {
-            marginTop: '2px',
-            minHeight: dimensions.height -603,
-            maxHeight: 'calc(100vh - 700px)',
+            width: '100%'
           }
       }
     >
-      <div style={{ backgroundColor: COLORS.secondary, borderTopLeftRadius: '6px', borderTopRightRadius: '6px', padding: '10px' }}>
+      <div className='ara-box-header'>
         <Title style={{
           paddingLeft: '10px',
           textTransform: 'uppercase',

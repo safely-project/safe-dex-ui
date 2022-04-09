@@ -187,15 +187,7 @@ export const TVChartContainer = () => {
 
   return (
     <>
-      <div
-        style={{
-          backgroundColor: COLORS.secondary,
-          borderTopLeftRadius: '6px',
-          borderTopRightRadius: '6px',
-          padding: '10px',
-          
-        }}
-      >
+      <div className='ara-box-header' >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Title
             style={{

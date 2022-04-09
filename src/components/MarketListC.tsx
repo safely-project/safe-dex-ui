@@ -93,7 +93,7 @@ export default function WrapperMarket() {
   return (
     <>
       <FloatingElement style={{ flex: 1 }}>
-        <div style={{ backgroundColor: COLORS.secondary, borderTopLeftRadius: '6px', borderTopRightRadius: '6px', padding: '10px' }}>
+        <div className='ara-box-header'>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Title style={{
               paddingLeft: '10px',
@@ -137,7 +137,7 @@ export default function WrapperMarket() {
 
         </Row>
         <MarketListCustom
-          cheight={dimensions.height}
+          //cheight={dimensions.height}
           markets={markets}
           setHandleDeprecated={setHandleDeprecated}
           placeholder={'Select market'}
@@ -157,7 +157,7 @@ function MarketListCustom({
   setHandleDeprecated,
   customMarkets,
   onDeleteCustomMarket,
-  cheight
+ // cheight
 }) {
   const { market, setMarketAddress } = useMarket();
 
@@ -170,7 +170,7 @@ function MarketListCustom({
 
   const MarketHeightDyn = styled.div`
   overflow-y: scroll;
-  height: ${cheight - 135}px;
+  height: 100%;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
     &::-webkit-scrollbar {
