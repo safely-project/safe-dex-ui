@@ -214,9 +214,9 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
                 />
               </RowBox>
             )}
-                        {!connected && (
-              <RowBox align="middle" style={{ paddingBottom: 10, height:'42px' }}>
-          <div>~</div>
+            {!connected && (
+              <RowBox align="middle" style={{ paddingBottom: 10, height: '42px' }}>
+                <div>~</div>
               </RowBox>
             )}
             <RowBox
@@ -227,17 +227,17 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
               <Col>Wallet balance:</Col>
               <Col>{balances && balances.wallet}</Col>
               <Col>
-              {currency}{' '}
-              {mint && (
-                <Popover
-                  content={<LinkAddress address={mint} />}
-                  placement="bottomRight"
-                  title="Token mint"
-                  trigger="hover"
-                >
-                  <InfoCircleOutlined style={{ color: '#2abdd2' }} />
-                </Popover>
-              )}
+                {currency}{' '}
+                {mint && (
+                  <Popover
+                    content={<LinkAddress address={mint} />}
+                    placement="bottomRight"
+                    title="Token mint"
+                    trigger="hover"
+                  >
+                    <InfoCircleOutlined style={{ color: '#2abdd2' }} />
+                  </Popover>
+                )}
               </Col>
             </RowBox>
             {/*balances?.unsettled != 0 ? <RowBox
@@ -265,7 +265,7 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
                   Settle
                 </ActionButton>
               </Col>
-              </RowBox> 
+            </RowBox>
             {/* 
             <RowBox align="middle" justify="space-around">
               <Col style={{ width: 150 }}>
@@ -275,14 +275,14 @@ export default function StandaloneBalancesDisplayV2({ activeCurrency }) {
               </Col>
             </RowBox>
             */}
-            <div style={{textAlign:'center', opacity:'0.7'}}>
-            <Tip>
-              All deposits go to your{' '}
-              <Link external to={providerUrl}>
-                {providerName}
-              </Link>{' '}
-              wallet
-            </Tip>
+            <div style={{ textAlign: 'center', opacity: '0.7' }}>
+              <Tip>
+                All deposits go to your{' '}
+                <Link external to={providerUrl}>
+                  {providerName}
+                </Link>{' '}
+                wallet
+              </Tip>
             </div>
           </React.Fragment>
         ),

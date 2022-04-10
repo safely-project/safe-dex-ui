@@ -35,7 +35,7 @@ export default function WalletConnect() {
   background: rgb(3 66 96);
   color: rgb(84 221 235);
   border: 1px solid rgb(3 66 96);
-  ${connected  ? 'padding-top:3px' : ''};
+  ${connected ? 'padding-top:3px' : ''};
   border-radius: 3px;
   /* margin-left: 10px; */
   &:hover {
@@ -46,28 +46,31 @@ export default function WalletConnect() {
 `;
   const menu2 = (
     <Menu>
-      <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-          View on explorer
-        </a>
-      </Menu.Item>
-      <div style={{display:'flex'}}>
-      <Menu.Item key="3" onClick={select}>
-        Change Wallet
-      </Menu.Item>
-      <Menu.Item>
+      {connected ?
+        <Menu.Item>
+          <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+            View on explorer
+          </a>
+        </Menu.Item>
+        :
+        null
+      }
+      <div style={{ display: 'flex' }}>
+        <Menu.Item key="3" onClick={select}>
+          Change Wallet
+        </Menu.Item>
         {connected ?
-          <>
-            <ButtonDisCustom onClick={connected ? disconnect : select}>
-              <DisconnectOutlined />
-              disconnect
-            </ButtonDisCustom>
-          </>
+          <Menu.Item>
+            <>
+              <ButtonDisCustom onClick={connected ? disconnect : select}>
+                <DisconnectOutlined />
+                disconnect
+              </ButtonDisCustom>
+            </>
+          </Menu.Item>
           :
           null
         }
-      </Menu.Item>
-
       </div>
     </Menu>
   );
@@ -75,8 +78,8 @@ export default function WalletConnect() {
 
   const menu = (
     <Menu>
-      <div style={{color:'#aff2fb'}}>
-      {connected && <LinkAddress shorten={true} address={publicKey} />}
+      <div style={{ color: '#aff2fb' }}>
+        {connected && <LinkAddress shorten={true} address={publicKey} />}
       </div>
       <Menu.Item key="3" onClick={select}>
         Change Wallet
@@ -90,8 +93,8 @@ export default function WalletConnect() {
       <Dropdown overlay={menu2} placement='bottomCenter' >
         <ButtonCustom onClick={connected ? disconnect : connect}>
           {connected ?
-            <div style={{color:'#aff2fb'}}>
-            <LinkAddress shorten={true} address={publicKey} />
+            <div style={{ color: '#aff2fb' }}>
+              <LinkAddress shorten={true} address={publicKey} />
             </div>
             :
             'Connect a wallet'
@@ -99,7 +102,7 @@ export default function WalletConnect() {
 
         </ButtonCustom>
       </Dropdown>
-          {/*
+      {/*
       <ButtonCustomDrop className="test" onClick={connected ? disconnect : connect} overlay={menu} >
         {connected ?
 

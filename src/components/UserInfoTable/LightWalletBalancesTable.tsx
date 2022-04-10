@@ -144,11 +144,11 @@ export default function LightWalletBalancesTable({
         pagination={false}
         
       />
-      {connected && (
+      {/*connected && (
         <Button onClick={onSettleFunds} loading={settlingFunds}>
           Settle all funds
         </Button>
-      )}
+      )*/}
     </React.Fragment>
   );
 }

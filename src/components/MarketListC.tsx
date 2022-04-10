@@ -92,7 +92,7 @@ export default function WrapperMarket() {
 
   return (
     <>
-      <FloatingElement style={{ flex: 1 }}>
+      <FloatingElement style={{ flex: 1, height:'100%' }}>
         <div className='ara-box-header'>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Title style={{
@@ -170,7 +170,7 @@ function MarketListCustom({
 
   const MarketHeightDyn = styled.div`
   overflow-y: scroll;
-  height: 100%;
+  //height: 100%;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
     scrollbar-width: none; /* for Firefox */
     &::-webkit-scrollbar {

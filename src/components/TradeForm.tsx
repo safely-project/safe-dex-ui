@@ -293,8 +293,8 @@ export default function TradeForm({
 
       <FloatingElement
         style={!connected ?
-          { display: 'flex', flexDirection: 'column', ...style } :
-          { display: 'flex', flexDirection: 'column', ...style }}
+          { display: 'flex', flexDirection: 'column',height:'100%', ...style } :
+          { display: 'flex', flexDirection: 'column',height:'100%', ...style }}
       >
         {!connected ? <IsCoOverlay>
           Connect your wallet

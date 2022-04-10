@@ -321,7 +321,7 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
   return (
     <Row
       style={{
-        height: '92.5vh',
+        height: '93vh',
         //minHeight: '900px',
         flexWrap: 'nowrap',
       }}
@@ -338,7 +338,7 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       </Col>
       <Col flex="auto" style={{ height: '100%' }}>
         <Row style={{ height: '60%' }}>
-          <FloatingElement style={{ flex: 1, marginBottom: '47px' }}>
+          <FloatingElement style={{ flex: 1, marginBottom: '36px' }}>
             <TVChartContainer />
           </FloatingElement>
         </Row>
