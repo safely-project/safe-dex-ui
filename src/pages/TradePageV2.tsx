@@ -32,6 +32,8 @@ import { TVChartContainer } from '../components/TradingView';
 import WrapperMarket from '../components/MarketListC';
 import FloatingElement from '../components/layout/FloatingElement';
 import { SerumVialProvider } from '../utils/serum-vial';
+import SimpleChart from './../components/TradingView/SimpleChart'
+import ChartDispatcher from './../components/TradingView/ChartDispatcher'
 // Use following stub for quick setup without the TradingView private dependency
 // function TVChartContainer() {
 //   return <></>
@@ -338,8 +340,10 @@ const RenderNormal = ({ onChangeOrderRef, onPrice, onSize }) => {
       </Col>
       <Col flex="auto" style={{ height: '100%' }}>
         <Row style={{ height: '60%' }}>
-          <FloatingElement style={{ flex: 1, marginBottom: '36px' }}>
-            <TVChartContainer />
+          <FloatingElement style={{ flex: 1 }}>
+            {/*<TVChartContainer />*/}
+            <ChartDispatcher/>
+            {/*<SimpleChart/>*/}
           </FloatingElement>
         </Row>
         <Row style={{ height: '40%' }}>

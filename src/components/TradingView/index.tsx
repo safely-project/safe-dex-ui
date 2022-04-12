@@ -187,24 +187,6 @@ export const TVChartContainer = () => {
 
   return (
     <>
-      <div className='ara-box-header' >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Title
-            style={{
-              paddingLeft: '10px',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              opacity: '0.8',
-            }}
-          >
-            Chart
-          </Title>
-          <div style={{display:'flex'}}>
-            <div>Simple</div>
-            <div>Advanced</div>
-          </div>
-        </div>
-      </div>
       <div id={defaultProps.containerId} className={'TVChartContainer'} />
     </>
   );
